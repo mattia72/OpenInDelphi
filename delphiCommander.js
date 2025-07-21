@@ -12,10 +12,16 @@ class DelphiCommander {
         });
         client.on('error', (err) => {
             console.error('Pipe error:', err);
-            // Try alternative approach - write to temp file
-            const tempFile = path.join(os.tmpdir(), 'vscode_delphi_bridge.json');
-            fs.writeFileSync(tempFile, jsonData);
-            console.log('Written to temp file instead:', tempFile);
+            // Benutzer informieren statt in eine temporäre Datei zu schreiben
+            try {
+                const vscode = require('vscode');
+                vscode.window.showErrorMessage(
+                    'Error sending to Delphi (pipe error): ' + err.message + '\nPlease check if Delphi is running and verify your DripExtensions settings.'
+                );
+            } catch (e) {
+                // Fallback if vscode is not available
+                console.error('Could not show error notification:', e);
+            }
         });
         client.on('end', () => {
             console.log('Successfully written to pipe:', pipeName);
