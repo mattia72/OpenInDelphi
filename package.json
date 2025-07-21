@@ -32,7 +32,10 @@
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "package-patch": "vsce package patch",
+    "package-minor": "vsce package minor",
+    "package-major": "vsce package major"
   },
   "devDependencies": {
     "@types/vscode": "^1.102.0",
