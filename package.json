@@ -44,7 +44,10 @@
     "test": "vscode-test",
     "package-patch": "vsce package patch",
     "package-minor": "vsce package minor",
-    "package-major": "vsce package major"
+    "package-major": "vsce package major",
+    "release": "pwsh -File ./release.ps1 -versionType patch",
+    "release-minor": "pwsh -File ./release.ps1 -versionType minor",
+    "release-major": "pwsh -File ./release.ps1 -versionType major"
   },
   "devDependencies": {
     "@types/vscode": "^1.102.0",
