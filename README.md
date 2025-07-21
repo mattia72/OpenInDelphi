@@ -1,65 +1,41 @@
-# openindelphi README
+# Open in Delphi
 
-This is the README for your extension "openindelphi". After writing up a brief description, we recommend including the following sections.
+A VS Code extension that allows you to open the current file directly in the Delphi IDE.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- Opens the current file in VS Code directly in the Delphi IDE
+- Seamless integration between VS Code and Delphi
+- Easy to use via Command Palette, context menu, or keyboard shortcut
 
-For example if there is an image subfolder under your extension project workspace:
+## Usage
 
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+1. Open a Pascal file (.pas, .dpr, .dpk) in VS Code
+2. Execute the "Open Current File in Delphi" command via:
+   - Command Palette (Ctrl+Shift+P) -> "Open Current File in Delphi"
+   - Right-click in editor -> "Open Current File in Delphi"
+   - Keyboard shortcut: **Ctrl+Alt+D**
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+- VS Code 1.102.0 or higher
+- Delphi IDE installed and configured
+- Windows operating system
+- **[DRipGrepper](https://github.com/mattia72/DRipGrepper)** must be installed and configured in Delphi for this extension to work properly
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+This extension does not contribute any custom settings.
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+No known issues at this time. Please report any bugs or feature requests on the GitHub repository.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+### 0.0.1
 
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Initial release of Open in Delphi extension
+- Basic functionality to open current file in Delphi IDE
+- Command palette integration
+- Context menu integration

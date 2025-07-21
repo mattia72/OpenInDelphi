@@ -1,8 +1,15 @@
 {
   "name": "openindelphi",
-  "displayName": "OpenInDelphi",
-  "description": "Opens Active File in Delphi",
+  "displayName": "Open in Delphi",
+  "description": "Opens current file in Delphi IDE",
   "version": "0.0.1",
+  "publisher": "mattia72",
+  "icon": "images/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mattia72/openindelphi.git"
+  },
+  "keywords": ["delphi", "pascal", "ide", "integration"],
   "engines": {
     "vscode": "^1.102.0"
   },
@@ -15,6 +22,11 @@
     "commands": [{
       "command": "openindelphi.openCurrentFileInDelphi",
       "title": "Open Current File in Delphi"
+    }],
+    "keybindings": [{
+      "command": "openindelphi.openCurrentFileInDelphi",
+      "key": "ctrl+alt+d",
+      "when": "editorTextFocus"
     }]
   },
   "scripts": {
