@@ -12,11 +12,7 @@ class DelphiCommander {
             // Benutzer informieren statt in eine temporäre Datei zu schreiben
             try {
                 const vscode = require('vscode');
-                vscode.window.showErrorMessage(
-                    'Error occurred: Please check if Delphi is running and verify your DripExtensions settings.\n'
-                    + 'If the problem persists, please report it on the GitHub repository: https://github.com/mattia72/OpenInDelphi/issues\n'
-                    + 'Error details:\n' + err.message
-                );
+                vscode.window.showErrorMessage('Error: ' + err.message);
             } catch (e) {
                 // Fallback if vscode is not available
                 console.error('Could not show error notification:', e);
@@ -61,10 +57,11 @@ class DelphiCommander {
             DelphiCommander.getActiveEditorData(activeEditor);
             try {
                 DelphiCommander.sendCommandToDelphi(DelphiCommander.pipeData);
-                vscode.window.showInformationMessage('Delphi window should now be aktive, if not then press Alt+Tab to switch to it.');
             } catch (error) {
                 console.error('Error creating pipe data:', error);
-                vscode.window.showErrorMessage('Failed to send data to pipe');
+                vscode.window.showErrorMessage(
+                    'Error occurred: Please check if Delphi is running and verify your DripExtensions settings.\n'
+                    + 'If the problem persists, please report it on the GitHub repository: https://github.com/mattia72/OpenInDelphi/issues'
             }
             const pd = DelphiCommander.pipeData;
             const locationInfo = `File: ${pd.fileName}\nPath: ${pd.filePath}\nRelative: ${pd.relativePath}\nPosition: Line ${pd.line}, Column ${pd.column}\nLanguage: ${pd.languageId}`;
