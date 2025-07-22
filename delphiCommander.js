@@ -22,8 +22,6 @@ class DelphiCommander {
         });
         client.on('end', () => {
             console.log('Successfully written to pipe:', pipeName);
-            // Delphi-Fenster aktivieren nach erfolgreichem Senden
-            DelphiCommander.activateDelphiWindow();
         });
     }
 
@@ -62,8 +60,8 @@ class DelphiCommander {
                         }
                     }
                 `.replace(/\n\s+/g, ' ');
-                
-                exec(`powershell -NoProfile -Command "${powershellCmd}"`, (error) => {
+
+                exec(`powershell -Command "${powershellCmd}"`, (error) => {
                     if (error) {
                         console.error('Error activating Delphi window:', error);
                     } else {
@@ -84,7 +82,8 @@ class DelphiCommander {
             DelphiCommander.getActiveEditorData(activeEditor);
             try {
                 DelphiCommander.sendCommandToDelphi(DelphiCommander.pipeData);
-                vscode.window.showInformationMessage('Data sent to Delphi via named pipe (or temp file fallback)');
+                DelphiCommander.activateDelphiWindow();
+                vscode.window.showInformationMessage('Delphi window should now be aktive, if not then press Alt+Tab to switch to it.');
             } catch (error) {
                 console.error('Error creating pipe data:', error);
                 vscode.window.showErrorMessage('Failed to send data to pipe');
