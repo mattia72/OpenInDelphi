@@ -42,9 +42,9 @@
     "lint": "eslint .",
     "pretest": "npm run lint",
     "test": "vscode-test",
-    "package": "vsce package patch",
-    "package-minor": "vsce package minor",
-    "package-major": "vsce package major",
+    "package": "vsce package patch && code --install-extension openindelphi-*.vsix",
+    "package-minor": "vsce package minor && code --install-extension openindelphi-*.vsix",
+    "package-major": "vsce package major && code --install-extension openindelphi-*.vsix",
     "release": "pwsh -File ./release.ps1 -versionType patch",
     "release-minor": "pwsh -File ./release.ps1 -versionType minor",
     "release-major": "pwsh -File ./release.ps1 -versionType major"
