@@ -62,6 +62,7 @@ class DelphiCommander {
                 vscode.window.showErrorMessage(
                     'Error occurred: Please check if Delphi is running and verify your DripExtensions settings.\n'
                     + 'If the problem persists, please report it on the GitHub repository: https://github.com/mattia72/OpenInDelphi/issues'
+                );
             }
             const pd = DelphiCommander.pipeData;
             const locationInfo = `File: ${pd.fileName}\nPath: ${pd.filePath}\nRelative: ${pd.relativePath}\nPosition: Line ${pd.line}, Column ${pd.column}\nLanguage: ${pd.languageId}`;
