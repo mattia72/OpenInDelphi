@@ -30,42 +30,19 @@ class DelphiCommander {
         if (os.platform() === 'win32') {
             try {
                 const { exec } = require('child_process');
-                // PowerShell-Befehl um Delphi-Fenster zu aktivieren
-                const powershellCmd = `
-                    Add-Type -TypeDefinition '
-                        using System;
-                        using System.Runtime.InteropServices;
-                        public class Win32 {
-                            [DllImport("user32.dll")]
-                            public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-                            [DllImport("user32.dll")]
-                            public static extern bool SetForegroundWindow(IntPtr hWnd);
-                            [DllImport("user32.dll")]
-                            public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-                        }
-                    ';
-                    $delphiWindow = [Win32]::FindWindow($null, "*Delphi*");
-                    if ($delphiWindow -ne [IntPtr]::Zero) {
-                        [Win32]::ShowWindow($delphiWindow, 9);
-                        [Win32]::SetForegroundWindow($delphiWindow);
-                        Write-Host "Delphi window activated";
-                    } else {
-                        Get-Process | Where-Object {$_.ProcessName -like "*bds*" -or $_.ProcessName -like "*delphi*"} | ForEach-Object {
-                            $mainWindow = $_.MainWindowHandle;
-                            if ($mainWindow -ne [IntPtr]::Zero) {
-                                [Win32]::ShowWindow($mainWindow, 9);
-                                [Win32]::SetForegroundWindow($mainWindow);
-                                Write-Host "Delphi process window activated";
-                            }
-                        }
-                    }
-                `.replace(/\n\s+/g, ' ');
-
-                exec(`powershell -Command "${powershellCmd}"`, (error) => {
+                const path = require('path');
+                
+                // Pfad zum PowerShell-Skript
+                const scriptPath = path.join(__dirname, 'scripts', 'activate-delphi-window.ps1');
+                
+                // PowerShell-Skript ausführen
+                exec(`powershell -NoProfile -ExecutionPolicy Bypass -File "${scriptPath}"`, (error, stdout, stderr) => {
                     if (error) {
                         console.error('Error activating Delphi window:', error);
+                        console.error('stderr:', stderr);
                     } else {
-                        console.log('Delphi window activation attempt completed');
+                        console.log('PowerShell output:', stdout);
+                        console.log('Delphi window activation completed');
                     }
                 });
             } catch (error) {
@@ -76,7 +53,6 @@ class DelphiCommander {
 
     static openCurrentFileInDelphi() {
         const vscode = require('vscode');
-        const path = require('path');
         const activeEditor = vscode.window.activeTextEditor;
         if (activeEditor) {
             DelphiCommander.getActiveEditorData(activeEditor);
