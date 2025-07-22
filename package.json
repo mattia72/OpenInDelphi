@@ -42,7 +42,7 @@
     "lint": "eslint .",
     "pretest": "npm run lint",
     "test": "vscode-test",
-    "package-patch": "vsce package patch",
+    "package": "vsce package patch",
     "package-minor": "vsce package minor",
     "package-major": "vsce package major",
     "release": "pwsh -File ./release.ps1 -versionType patch",

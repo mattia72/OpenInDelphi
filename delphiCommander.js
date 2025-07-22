@@ -2,9 +2,6 @@ class DelphiCommander {
     static pipeData = null;
     static sendCommandToDelphi(pipeData, pipeName = '\\\\.\\pipe\\vscode_delphi_bridge') {
         const net = require('net');
-        const fs = require('fs');
-        const path = require('path');
-        const os = require('os');
         const jsonData = JSON.stringify(pipeData, null, 2);
         const client = net.connect(pipeName, () => {
             client.write(jsonData);
@@ -25,7 +22,58 @@ class DelphiCommander {
         });
         client.on('end', () => {
             console.log('Successfully written to pipe:', pipeName);
+            // Delphi-Fenster aktivieren nach erfolgreichem Senden
+            DelphiCommander.activateDelphiWindow();
         });
+    }
+
+    static activateDelphiWindow() {
+        const os = require('os');
+        if (os.platform() === 'win32') {
+            try {
+                const { exec } = require('child_process');
+                // PowerShell-Befehl um Delphi-Fenster zu aktivieren
+                const powershellCmd = `
+                    Add-Type -TypeDefinition '
+                        using System;
+                        using System.Runtime.InteropServices;
+                        public class Win32 {
+                            [DllImport("user32.dll")]
+                            public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+                            [DllImport("user32.dll")]
+                            public static extern bool SetForegroundWindow(IntPtr hWnd);
+                            [DllImport("user32.dll")]
+                            public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+                        }
+                    ';
+                    $delphiWindow = [Win32]::FindWindow($null, "*Delphi*");
+                    if ($delphiWindow -ne [IntPtr]::Zero) {
+                        [Win32]::ShowWindow($delphiWindow, 9);
+                        [Win32]::SetForegroundWindow($delphiWindow);
+                        Write-Host "Delphi window activated";
+                    } else {
+                        Get-Process | Where-Object {$_.ProcessName -like "*bds*" -or $_.ProcessName -like "*delphi*"} | ForEach-Object {
+                            $mainWindow = $_.MainWindowHandle;
+                            if ($mainWindow -ne [IntPtr]::Zero) {
+                                [Win32]::ShowWindow($mainWindow, 9);
+                                [Win32]::SetForegroundWindow($mainWindow);
+                                Write-Host "Delphi process window activated";
+                            }
+                        }
+                    }
+                `.replace(/\n\s+/g, ' ');
+                
+                exec(`powershell -NoProfile -Command "${powershellCmd}"`, (error) => {
+                    if (error) {
+                        console.error('Error activating Delphi window:', error);
+                    } else {
+                        console.log('Delphi window activation attempt completed');
+                    }
+                });
+            } catch (error) {
+                console.error('Failed to activate Delphi window:', error);
+            }
+        }
     }
 
     static openCurrentFileInDelphi() {
@@ -52,7 +100,6 @@ class DelphiCommander {
     // createPipeData entfällt, Logik wandert nach getActiveEditorData
 
     static getActiveEditorData(activeEditor) {
-        const path = require('path');
         const filePath = activeEditor.document.uri.fsPath;
         const fileName = activeEditor.document.fileName;
         const workspaceFolder = require('vscode').workspace.getWorkspaceFolder(activeEditor.document.uri);
@@ -66,7 +113,7 @@ class DelphiCommander {
         DelphiCommander.pipeData = {
             command: 'gotoFileLocation',
             filePath: filePath,
-            fileName: path.basename(filePath),
+            fileName: filePath.split('\\').pop() || filePath.split('/').pop() || filePath,
             relativePath: relativePath,
             workspaceFolder: workspaceFolder ? workspaceFolder.uri.fsPath : null,
             line: line,
