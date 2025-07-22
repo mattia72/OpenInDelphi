@@ -13,7 +13,9 @@ class DelphiCommander {
             try {
                 const vscode = require('vscode');
                 vscode.window.showErrorMessage(
-                    'Error sending to Delphi (pipe error): ' + err.message + '\nPlease check if Delphi is running and verify your DripExtensions settings.'
+                    'Error occurred: Please check if Delphi is running and verify your DripExtensions settings.\n'
+                    + 'If the problem persists, please report it on the GitHub repository: https://github.com/mattia72/OpenInDelphi/issues\n'
+                    + 'Error details:\n' + err.message
                 );
             } catch (e) {
                 // Fallback if vscode is not available
@@ -22,6 +24,7 @@ class DelphiCommander {
         });
         client.on('end', () => {
             console.log('Successfully written to pipe:', pipeName);
+            DelphiCommander.activateDelphiWindow();
         });
     }
 
@@ -58,7 +61,6 @@ class DelphiCommander {
             DelphiCommander.getActiveEditorData(activeEditor);
             try {
                 DelphiCommander.sendCommandToDelphi(DelphiCommander.pipeData);
-                DelphiCommander.activateDelphiWindow();
                 vscode.window.showInformationMessage('Delphi window should now be aktive, if not then press Alt+Tab to switch to it.');
             } catch (error) {
                 console.error('Error creating pipe data:', error);
