@@ -21,12 +21,6 @@
   "categories": [
     "Other"
   ],
-  "files": [
-    "extension.js",
-    "delphiCommander.js",
-    "scripts/**/*.ps1",
-    "images/**"
-  ],
   "activationEvents": [],
   "main": "./extension.js",
   "contributes": {
