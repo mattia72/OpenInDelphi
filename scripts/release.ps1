@@ -8,6 +8,55 @@ param(
 # Stop script on first error
 $ErrorActionPreference = "Stop"
 
+function Build-ReleaseNotes {
+    param(
+        [string]$newVersion,
+        [string]$changelogPath = "./CHANGELOG.md"
+    )
+    
+    Write-Host "Building release notes for version $newVersion..."
+    
+    # Get changelog content
+    $changelogFileContent = Get-Content $changelogPath
+    $changeLogStartLine = ($changelogFileContent | Select-String -Pattern "## \[$newVersion\]").LineNumber 
+    
+    if (-not $changeLogStartLine) {
+        Write-Error "FATAL: Could not find changelog for '$newVersion'. Aborting."
+        exit 1
+    }
+    
+    # Find the next version section to limit the changelog text
+    $nextVersionLine = $null
+    for ($i = $changeLogStartLine; $i -lt $changelogFileContent.Length; $i++) {
+        if ($changelogFileContent[$i] -match "^## \[" -and $i -gt $changeLogStartLine - 1) {
+            $nextVersionLine = $i
+            break
+        }
+    }
+    
+    # Extract changelog text for current version only
+    if ($nextVersionLine) {
+        $changeLogText = $changelogFileContent[($changeLogStartLine - 1)..($nextVersionLine - 2)] -join "`n"
+    } else {
+        $changeLogText = $changelogFileContent[($changeLogStartLine - 1)..($changelogFileContent.Length - 1)] -join "`n"
+    }
+    
+    # Escape special characters in changelog text
+    $escapedChangeLogText = $changeLogText -replace '"', '\"' -replace '`', '\`'
+    $releaseNotes = "Release version $newVersion`n`n$escapedChangeLogText"
+    
+    # Write to temporary file
+    $tempNotesFile = "temp_release_notes.txt"
+    $releaseNotes | Out-File -FilePath $tempNotesFile -Encoding UTF8
+    
+    Write-Host "Changelog text preview:"
+    Write-Host "========================"
+    Write-Host $changeLogText
+    Write-Host "========================"
+    
+    return $tempNotesFile
+}
+
 Write-Host "Starting release process with version type: $versionType..."
 
 # 1. Bump version and create the .vsix package
@@ -30,39 +79,27 @@ Write-Host "New version: $newVersion"
 Write-Host "VSIX file: $vsixFile"
 
 if (-not $debug) {
-    # get text from changelog started from the first ## [x.y.z] version
-    $changelogFileContent = Get-Content ./CHANGELOG.md
-    $changeLogStartLine = ($changelogFileContent  | Select-String -Pattern "## \[$newVersion\]").LineNumber 
-    if (-not $changeLogStartLine) {
-        Write-Error "FATAL: Could not find changelog for '$newVersion'. Aborting."
-        exit 1
-    }
+    # Build release notes using the separate function
+    $tempNotesFile = Build-ReleaseNotes -newVersion $newVersion
     
-    # Find the next version section to limit the changelog text
-    $nextVersionLine = $null
-    for ($i = $changeLogStartLine; $i -lt $changelogFileContent.Length; $i++) {
-        if ($changelogFileContent[$i] -match "^## \[" -and $i -gt $changeLogStartLine - 1) {
-            $nextVersionLine = $i
-            break
-        }
-    }
-    
-    if ($nextVersionLine) {
-        $changeLogText = $changelogFileContent[($changeLogStartLine - 1)..($nextVersionLine - 2)] -join "`n"
-    } else {
-        $changeLogText = $changelogFileContent[($changeLogStartLine - 1)..($changelogFileContent.Length - 1)] -join "`n"
-    }
-    
-    Write-Host "Changelog text preview:"
-    Write-Host "========================"
-    Write-Host $changeLogText
-    Write-Host "========================"
+    Write-Host "Creating release with tag: $tagName"
+    Write-Host "Title: Release $tagName"
+    Write-Host $(Get-Content $tempNotesFile)
 
-    # 3. Add, commit, and tag the new version
-    Read-Host "Committing and tagging version... Press Enter to continue"
-    git add package.json
-    git commit -m "Release $tagName"
-    git tag $tagName
+    Read-Host "Do you want to continue with release creation? (Y/N)" -OutVariable userInput
+    if ($userInput -imatch "Y") {
+        # 3. Add, commit, and tag the new version
+        Read-Host "Committing and tagging version... Press Enter to continue"
+        git add package.json
+        git commit -m "Release $tagName"
+        git tag $tagName
+    }
+    else {
+        git reset --hard HEAD
+        Write-Host "Release creation aborted."
+        exit 0
+    }
+
 
     # 4. Push commit and tags to GitHub
     Write-Host "Pushing to GitHub..."
@@ -79,23 +116,8 @@ if (-not $debug) {
     # 6. Create GitHub Release and upload the .vsix file
     Write-Host "Creating GitHub Release and uploading package..."
     
-    # Escape special characters in changelog text
-    $escapedChangeLogText = $changeLogText -replace '"', '\"' -replace '`', '\`'
-    
-    # Create release notes content
-    $releaseNotes = "Release version $newVersion`n`n$escapedChangeLogText"
-    
-    # Write release notes to temporary file to avoid command line length issues
-    $tempNotesFile = "temp_release_notes.txt"
-    $releaseNotes | Out-File -FilePath $tempNotesFile -Encoding UTF8
     
     try {
-        Write-Host "Creating release with tag: $tagName"
-        Write-Host "Title: Release $tagName"
-        Write-Host $(Get-Content $tempNotesFile)
-        
-        Read-Host "Press Enter to continue with release creation"
-
         # Create release with notes from file
         gh release create $tagName --title "Release $tagName" --notes-file $tempNotesFile "$vsixFile"
         
