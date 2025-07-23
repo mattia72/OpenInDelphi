@@ -1,27 +1,33 @@
 # Open in Delphi
-
-A VS Code extension that allows you to open the current file directly in the Delphi IDE.
+A Visual Studio Code extension that lets you open the file you're currently editing directly in the Delphi IDE.  
+Requires the **[DRipGrepper](https://github.com/mattia72/DRipGrepper)** extension to be installed and configured in Delphi.
 
 ## Features
 
 - Opens the current file in VS Code directly in the Delphi IDE
-- Seamless integration between VS Code and Delphi
+- Seamless switch between VS Code and Delphi 
 - Easy to use via Command Palette, context menu, or keyboard shortcut
 
 ## Usage
 
-1. Open a Pascal file (.pas, .dpr, .dpk) in VS Code
-2. Execute the "Open Current File in Delphi" command via:
-   - Command Palette (Ctrl+Shift+P) -> "Open Current File in Delphi"
-   - Right-click in editor -> "Open Current File in Delphi"
-   - Keyboard shortcut: **Ctrl+Alt+D**
+### Switch from VS Code to Delphi 
+
+Execute the "Open Current File in Delphi" command via:
+   - Command Palette (Shift+Alt+P) -> "Open Current File in Delphi"
+   - Default keyboard shortcut: **Shift+Alt+D**
+   
+### Switch From Delphi to VS Code
+ 
+   - Tools | DRipExtensions | Open With...
+     - Select "Open in VS Code" from the list
+   - Default keyboard shortcut: **Shift+Alt+O**
 
 ## Requirements
 
 - VS Code 1.102.0 or higher
 - Delphi IDE installed and configured
+- **[DRipGrepper](https://github.com/mattia72/DRipGrepper)** 4.10.0 or higher must be installed and configured in Delphi
 - Windows operating system
-- **[DRipGrepper](https://github.com/mattia72/DRipGrepper)** must be installed and configured in Delphi for this extension to work properly
 
 ## Extension Settings
 
@@ -33,9 +39,5 @@ No known issues at this time. Please report any bugs or feature requests on the 
 
 ## Release Notes
 
-### 0.0.1
-
-Initial release of Open in Delphi extension
-- Basic functionality to open current file in Delphi IDE
-- Command palette integration
-- Context menu integration
+- Default keyboard shortcut (Shift+Alt+D) for 'Open Current File in Delphi' command
+- User notification if sending to Delphi via the pipe fails, with suggestion to check Delphi and DripExtensions settings

@@ -33,7 +33,7 @@
     "keybindings": [
       {
         "command": "openindelphi.openCurrentFileInDelphi",
-        "key": "ctrl+alt+d",
+        "key": "shift+alt+d",
         "when": "editorTextFocus"
       }
     ]
@@ -45,9 +45,10 @@
     "package": "vsce package patch && pwsh -c \"code --install-extension (Get-ChildItem openindelphi-*.vsix | Sort-Object LastWriteTime -Descending | Select-Object -First 1).Name\"",
     "package-minor": "vsce package minor && pwsh -c \"code --install-extension (Get-ChildItem openindelphi-*.vsix | Sort-Object LastWriteTime -Descending | Select-Object -First 1).Name\"",
     "package-major": "vsce package major && pwsh -c \"code --install-extension (Get-ChildItem openindelphi-*.vsix | Sort-Object LastWriteTime -Descending | Select-Object -First 1).Name\"",
-    "release": "pwsh -File ./release.ps1 -versionType patch",
-    "release-minor": "pwsh -File ./release.ps1 -versionType minor",
-    "release-major": "pwsh -File ./release.ps1 -versionType major"
+    "debug": "pwsh -File ./scripts/release.ps1 -versionType patch -debug && pwsh -c \"code --install-extension (Get-ChildItem openindelphi-*.vsix | Sort-Object LastWriteTime -Descending | Select-Object -First 1).Name\"",
+    "release": "pwsh -File ./scripts/release.ps1 -versionType patch",
+    "release-minor": "pwsh -File ./scripts/release.ps1 -versionType minor",
+    "release-major": "pwsh -File ./scripts/release.ps1 -versionType major"
   },
   "devDependencies": {
     "@types/vscode": "^1.102.0",
