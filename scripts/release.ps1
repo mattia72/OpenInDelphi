@@ -79,6 +79,12 @@ $tagName = "v$newVersion"
 Write-Host "New version: $newVersion"
 Write-Host "VSIX file: $vsixFile"
 
+Write-Host "Verifying that VSIX file '$vsixFile' exists..."
+if (-not (Test-Path $vsixFile)) {
+    Write-Error "FATAL: VSIX file '$vsixFile' was not found after packaging. Aborting."
+    exit 1
+}
+
 if (-not $debug) {
     try { 
         # Build release notes using the separate function
@@ -89,34 +95,21 @@ if (-not $debug) {
         Write-Host $(Get-Content $tempNotesFile)
 
         Read-Host "Do you want to continue with release creation? (Y/N)" -OutVariable userInput
-        if ($userInput -imatch "Y") {
-            # This is made by vsce package...
-            # 3. Add, commit, and tag the new version
-            # Read-Host "Committing and tagging version... Press Enter to continue"
-            # git add package.json
-            # git commit -m "Release $tagName"
-            # git tag $tagName
-        }
-        else {
-            # git reset --hard HEAD
+        if ($userInput -inotmatch "Y") {
             Write-Host "Release creation aborted."
             exit 0
         }
-
-        # 5. Verify the .vsix file exists
-        Write-Host "Verifying that VSIX file '$vsixFile' exists..."
-        if (-not (Test-Path $vsixFile)) {
-            Write-Error "FATAL: VSIX file '$vsixFile' was not found after packaging. Aborting."
-            exit 1
-        }
-
-        # 6. Create GitHub Release and upload the .vsix file
-        Write-Host "Creating GitHub Release and uploading package..."
     
         try {
             # Create release with notes from file
-            gh release create $tagName --title "Release $tagName" --notes-file $tempNotesFile "$vsixFile"
-        
+            Write-Host "Creating GitHub Release and uploading package..."
+            # Check if gh.exe is installed (filter out aliases)
+            $ghCommand = Get-Command gh -ErrorAction SilentlyContinue -CommandType Application
+            if (-not $ghCommand) {
+                Write-Error "FATAL: 'gh.exe' CLI is not installed or not found in PATH. Please install it from https://cli.github.com/ and ensure it's in your PATH."
+                exit 1
+            }
+            & $ghCommand.Source release create $tagName --title "Release $tagName" --notes-file $tempNotesFile "$vsixFile"
             Write-Host "Release $tagName successfully created and asset uploaded!"
         }
         catch {
