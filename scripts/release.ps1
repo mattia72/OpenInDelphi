@@ -30,6 +30,15 @@ Write-Host "New version: $newVersion"
 Write-Host "VSIX file: $vsixFile"
 
 if (-not $debug) {
+    # get text from changelog started from the first ## [x.y.z] version
+    $changelogFileContent = Get-Content ./CHANGELOG.md
+    $changeLogStartLine = ($changelogFileContent  | Select-String -Pattern "## \[$newVersion\]").LineNumber 
+    if (-not $changeLogStartLine) {
+        Write-Error "FATAL: Could not find changelog for '$newVersion'. Aborting."
+        exit 1
+    }
+    $changeLogText = $changelogFileContent[$changeLogStartLine..($changelogFileContent.Length - 1)] -join "`n"
+
     # 3. Add, commit, and tag the new version
     Read-Host "Committing and tagging version... Press Enter to continue"
     git add package.json
@@ -48,14 +57,6 @@ if (-not $debug) {
         exit 1
     }
     Write-Host "VSIX file found."
-    # get text from changelog started from the first ## [x.y.z] version
-    $changelogFileContent = Get-Content ./CHANGELOG.md
-    $changeLogStartLine = ($changelogFileContent  | Select-String -Pattern "## \[$newVersion\]").LineNumber 
-    if (-not $changeLogStartLine) {
-        Write-Error "FATAL: Could not find changelog entry for version '$newVersion'. Aborting."
-        exit 1
-    }
-    $changeLogText = $changelogFileContent[$changeLogStartLine..($changelogFileContent.Length - 1)] -join "`n"
 
     # 6. Create GitHub Release and upload the .vsix file
     Write-Host "Creating GitHub Release and uploading package..."

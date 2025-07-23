@@ -7,6 +7,26 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [Unreleased] 
 -->
 
+## [1.0.18] - 2025-07-23
+
+### Added
+- Release script to automate versioning and changelog updates
+
+## [1.0.17] - 2025-07-23
+
+### Added
+- Release script update
+
+## [1.0.16] - 2025-07-23
+
+### Added
+- Release script update -debug switch
+
+## [1.0.15] - 2025-07-23
+
+### Added
+- Release script update
+
 ## [1.0.14] - 2025-07-22
 
 ### Added
