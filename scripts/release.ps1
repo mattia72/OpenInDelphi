@@ -88,11 +88,12 @@ if (-not $debug) {
 
     Read-Host "Do you want to continue with release creation? (Y/N)" -OutVariable userInput
     if ($userInput -imatch "Y") {
+        # This is made by vsce package...
         # 3. Add, commit, and tag the new version
-        Read-Host "Committing and tagging version... Press Enter to continue"
-        git add package.json
-        git commit -m "Release $tagName"
-        git tag $tagName
+        # Read-Host "Committing and tagging version... Press Enter to continue"
+        # git add package.json
+        # git commit -m "Release $tagName"
+        # git tag $tagName
     }
     else {
         git reset --hard HEAD
