@@ -11,11 +11,12 @@ $ErrorActionPreference = "Stop"
 Write-Host "Starting release process with version type: $versionType..."
 
 # 1. Bump version and create the .vsix package
-Write-Host "Bumping version and packaging..."
 if ($debug) {
+    Write-Host "Bumping version and packaging debug version..."
     vsce package 
 }
 else {
+    Write-Host "Bumping version and packaging $versionType version..."
     vsce package $versionType
 }
 
