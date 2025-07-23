@@ -37,7 +37,8 @@ function Build-ReleaseNotes {
     # Extract changelog text for current version only
     if ($nextVersionLine) {
         $changeLogText = $changelogFileContent[($changeLogStartLine - 1)..($nextVersionLine - 2)] -join "`n"
-    } else {
+    }
+    else {
         $changeLogText = $changelogFileContent[($changeLogStartLine - 1)..($changelogFileContent.Length - 1)] -join "`n"
     }
     
@@ -79,56 +80,51 @@ Write-Host "New version: $newVersion"
 Write-Host "VSIX file: $vsixFile"
 
 if (-not $debug) {
-    # Build release notes using the separate function
-    $tempNotesFile = Build-ReleaseNotes -newVersion $newVersion
+    try { 
+        # Build release notes using the separate function
+        $tempNotesFile = Build-ReleaseNotes -newVersion $newVersion
     
-    Write-Host "Creating release with tag: $tagName"
-    Write-Host "Title: Release $tagName"
-    Write-Host $(Get-Content $tempNotesFile)
+        Write-Host "Creating release with tag: $tagName"
+        Write-Host "Title: Release $tagName"
+        Write-Host $(Get-Content $tempNotesFile)
 
-    Read-Host "Do you want to continue with release creation? (Y/N)" -OutVariable userInput
-    if ($userInput -imatch "Y") {
-        # This is made by vsce package...
-        # 3. Add, commit, and tag the new version
-        # Read-Host "Committing and tagging version... Press Enter to continue"
-        # git add package.json
-        # git commit -m "Release $tagName"
-        # git tag $tagName
-    }
-    else {
-        git reset --hard HEAD
-        Write-Host "Release creation aborted."
-        exit 0
-    }
+        Read-Host "Do you want to continue with release creation? (Y/N)" -OutVariable userInput
+        if ($userInput -imatch "Y") {
+            # This is made by vsce package...
+            # 3. Add, commit, and tag the new version
+            # Read-Host "Committing and tagging version... Press Enter to continue"
+            # git add package.json
+            # git commit -m "Release $tagName"
+            # git tag $tagName
+        }
+        else {
+            # git reset --hard HEAD
+            Write-Host "Release creation aborted."
+            exit 0
+        }
 
+        # 5. Verify the .vsix file exists
+        Write-Host "Verifying that VSIX file '$vsixFile' exists..."
+        if (-not (Test-Path $vsixFile)) {
+            Write-Error "FATAL: VSIX file '$vsixFile' was not found after packaging. Aborting."
+            exit 1
+        }
 
-    # 4. Push commit and tags to GitHub
-    Write-Host "Pushing to GitHub..."
-    git push
-    git push --tags
-
-    # 5. Verify the .vsix file exists
-    Write-Host "Verifying that VSIX file '$vsixFile' exists..."
-    if (-not (Test-Path $vsixFile)) {
-        Write-Error "FATAL: VSIX file '$vsixFile' was not found after packaging. Aborting."
-        exit 1
-    }
-
-    # 6. Create GitHub Release and upload the .vsix file
-    Write-Host "Creating GitHub Release and uploading package..."
+        # 6. Create GitHub Release and upload the .vsix file
+        Write-Host "Creating GitHub Release and uploading package..."
     
-    
-    try {
-        # Create release with notes from file
-        gh release create $tagName --title "Release $tagName" --notes-file $tempNotesFile "$vsixFile"
+        try {
+            # Create release with notes from file
+            gh release create $tagName --title "Release $tagName" --notes-file $tempNotesFile "$vsixFile"
         
-        Write-Host "Release $tagName successfully created and asset uploaded!"
-    }
-    catch {
-        Write-Error "Failed to create GitHub release. Error: $_"
-        Write-Error "Please check your 'gh' CLI authentication and permissions."
-        Write-Error "You can verify your status by running: gh auth status"
-        exit 1
+            Write-Host "Release $tagName successfully created and asset uploaded!"
+        }
+        catch {
+            Write-Error "Failed to create GitHub release. Error: $_"
+            Write-Error "Please check your 'gh' CLI authentication and permissions."
+            Write-Error "You can verify your status by running: gh auth status"
+            exit 1
+        }
     }
     finally {
         # Clean up temporary file
