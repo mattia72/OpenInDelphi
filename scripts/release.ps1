@@ -37,7 +37,26 @@ if (-not $debug) {
         Write-Error "FATAL: Could not find changelog for '$newVersion'. Aborting."
         exit 1
     }
-    $changeLogText = $changelogFileContent[$changeLogStartLine..($changelogFileContent.Length - 1)] -join "`n"
+    
+    # Find the next version section to limit the changelog text
+    $nextVersionLine = $null
+    for ($i = $changeLogStartLine; $i -lt $changelogFileContent.Length; $i++) {
+        if ($changelogFileContent[$i] -match "^## \[" -and $i -gt $changeLogStartLine - 1) {
+            $nextVersionLine = $i
+            break
+        }
+    }
+    
+    if ($nextVersionLine) {
+        $changeLogText = $changelogFileContent[($changeLogStartLine - 1)..($nextVersionLine - 2)] -join "`n"
+    } else {
+        $changeLogText = $changelogFileContent[($changeLogStartLine - 1)..($changelogFileContent.Length - 1)] -join "`n"
+    }
+    
+    Write-Host "Changelog text preview:"
+    Write-Host "========================"
+    Write-Host $changeLogText
+    Write-Host "========================"
 
     # 3. Add, commit, and tag the new version
     Read-Host "Committing and tagging version... Press Enter to continue"
@@ -56,21 +75,43 @@ if (-not $debug) {
         Write-Error "FATAL: VSIX file '$vsixFile' was not found after packaging. Aborting."
         exit 1
     }
-    Write-Host "VSIX file found."
 
     # 6. Create GitHub Release and upload the .vsix file
     Write-Host "Creating GitHub Release and uploading package..."
+    
+    # Escape special characters in changelog text
+    $escapedChangeLogText = $changeLogText -replace '"', '\"' -replace '`', '\`'
+    
+    # Create release notes content
+    $releaseNotes = "Release version $newVersion`n`n$escapedChangeLogText"
+    
+    # Write release notes to temporary file to avoid command line length issues
+    $tempNotesFile = "temp_release_notes.txt"
+    $releaseNotes | Out-File -FilePath $tempNotesFile -Encoding UTF8
+    
     try {
-        gh release create $tagName --title "Release $tagName" --notes "Release version $newVersion `n`n$changeLogText"
-        gh release upload $tagName "$vsixFile" --clobber
+        Write-Host "Creating release with tag: $tagName"
+        Write-Host "Title: Release $tagName"
+        Write-Host $(Get-Content $tempNotesFile)
+        
+        Read-Host "Press Enter to continue with release creation"
+
+        # Create release with notes from file
+        gh release create $tagName --title "Release $tagName" --notes-file $tempNotesFile "$vsixFile"
+        
+        Write-Host "Release $tagName successfully created and asset uploaded!"
     }
     catch {
-        Write-Error "Failed to create GitHub release. Please check your 'gh' CLI authentication and permissions."
+        Write-Error "Failed to create GitHub release. Error: $_"
+        Write-Error "Please check your 'gh' CLI authentication and permissions."
         Write-Error "You can verify your status by running: gh auth status"
         exit 1
     }
     finally {
-        Write-Host "Release $tagName successfully published to GitHub!"
+        # Clean up temporary file
+        if (Test-Path $tempNotesFile) {
+            Remove-Item $tempNotesFile -Force
+        }
     }
 }
 
