@@ -2,10 +2,20 @@
 
 All notable changes to the "openindelphi" extension will be documented in this file.
 
-<!--- 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 ## [Unreleased] 
--->
+### Added
+- Github release script uses `GitHubReleaseUtils.ps1` for reusable functions.
+
+## [1.0.24] - 2025-07-24
+
+### Added
+- Release script to automate versioning and changelog updates
+- Market place publishing
+
+## [1.0.23] - 2025-07-23
+
+### Added
+- Release script to automate versioning and changelog updates
 
 ## [1.0.22] - 2025-07-23
 
