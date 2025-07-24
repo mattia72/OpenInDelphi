@@ -3,7 +3,7 @@
   "displayName": "Open in Delphi",
   "description": "Opens current file in Delphi IDE",
   "version": "1.0.24",
-  "publisher": "mattia72",
+  "publisher": "Mattia72-OpenInDelphi",
   "icon": "images/icon.png",
   "repository": {
     "type": "git",
