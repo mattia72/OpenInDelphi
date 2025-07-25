@@ -1,6 +1,6 @@
 # Open in Delphi
 A Visual Studio Code extension that lets you open the file you're currently editing directly in the Delphi IDE.  
-Requires the **[DRipGrepper](https://github.com/mattia72/DRipGrepper)** extension to be installed and configured in Delphi.
+Requires **[DRipExtensions](https://github.com/mattia72/DRipGrepper)** to be installed and configured in Delphi.
 
 ## Features
 
@@ -19,7 +19,7 @@ Execute the "Open Current File in Delphi" command via:
 ### Switch From Delphi to VS Code
  
    - Tools | DRipExtensions | Open With...
-     - Select "Open in VS Code" from the list
+     - Select "Open in VSCode instance" from the list
    - Default keyboard shortcut: **Shift+Alt+O**
 
 ![Open with in Delphi](images/open-with-screenshot.png)
@@ -28,9 +28,9 @@ Execute the "Open Current File in Delphi" command via:
 
 - VS Code 1.102.0 or higher
 - Delphi IDE installed and configured
-- **[DRipGrepper](https://github.com/mattia72/DRipGrepper)** 4.10.0 or higher must be installed and configured in Delphi
+- **[DRipExtensions](https://github.com/mattia72/DRipGrepper)** 4.10.0 or higher must be installed and configured in Delphi
 
-![Dripgrepper config](images/dripgrepper-extension-config.png)
+![DRipExtensions config](images/dripgrepper-extension-config.png)
 
 ## Extension Settings
 
