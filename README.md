@@ -20,13 +20,14 @@ Execute the "Open Current File in Delphi" command via:
  
    - Tools | DRipExtensions | Open With...
      - Default keyboard shortcut: **Shift+Alt+O**
-   - Select "Open in VSCode instance" and push enter. 
-       - If for some reason it is not in the list, configure a new entry with the following parameters:
-         - **Caption**: Open in VSCode instance
-         - **Command**: `<path-to-vscode>/code.exe`
-         - **Parameters**: `--reuse-window --goto "<FILE>:<LINE>:<COL>"`
+   - Select "Open in VSCode instance" and push enter.
+     
+     ![Open with in Delphi](images/open-with-screenshot.png)
+     - If for some reason it is not in the list, configure a new entry with the following parameters:
+       - **Caption**: Open in VSCode instance
+       - **Command**: `<path-to-vscode>/code.exe`
+       - **Parameters**: `--reuse-window --goto "<FILE>:<LINE>:<COL>"`
 
-![Open with in Delphi](images/open-with-screenshot.png)
 
 ## Requirements
 
@@ -35,6 +36,10 @@ Execute the "Open Current File in Delphi" command via:
 - **[DRipExtensions](https://github.com/mattia72/DRipGrepper)** 4.10.0 or higher must be installed and configured in Delphi
 
 ![DRipExtensions config](images/dripgrepper-extension-config.png)
+
+## Install
+
+Use [marketplace](https://marketplace.visualstudio.com/items?itemName=Mattia72-OpenInDelphi.openindelphi)
 
 ## Extension Settings
 
