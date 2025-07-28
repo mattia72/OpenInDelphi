@@ -2,7 +2,7 @@
   "name": "openindelphi",
   "displayName": "Open in Delphi",
   "description": "Opens current file in Delphi IDE",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "publisher": "Mattia72-OpenInDelphi",
   "icon": "images/icon.png",
   "repository": {
