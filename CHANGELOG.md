@@ -2,9 +2,11 @@
 
 All notable changes to the "openindelphi" extension will be documented in this file.
 
-## [Unreleased] 
+## [1.0.27] - 2025-07-28
 ### Added
 - Github release script uses `GitHubReleaseUtils.ps1` for reusable functions.
+### Changed
+- Updated `README.md` to reflect the latest changes and usage instructions.
 
 ## [1.0.24] - 2025-07-24
 
