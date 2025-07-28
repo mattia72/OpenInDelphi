@@ -13,14 +13,18 @@ Requires **[DRipExtensions](https://github.com/mattia72/DRipGrepper)** to be ins
 ### Switch from VS Code to Delphi 
 
 Execute the "Open Current File in Delphi" command via:
-   - Command Palette (Shift+Alt+P) -> "Open Current File in Delphi"
+   - Command Palette (Ctrl+Shift+P) -> "Open Current File in Delphi"
    - Default keyboard shortcut: **Shift+Alt+D**
 
 ### Switch From Delphi to VS Code
  
    - Tools | DRipExtensions | Open With...
-     - Select "Open in VSCode instance" from the list
-   - Default keyboard shortcut: **Shift+Alt+O**
+     - Default keyboard shortcut: **Shift+Alt+O**
+   - Select "Open in VSCode instance" and push enter. 
+       - If for some reason it is not in the list, configure a new entry with the following parameters:
+         - **Caption**: Open in VSCode instance
+         - **Command**: `<path-to-vscode>/code.exe`
+         - **Parameters**: `--reuse-window --goto "<FILE>:<LINE>:<COL>"`
 
 ![Open with in Delphi](images/open-with-screenshot.png)
 
