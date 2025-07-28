@@ -35,11 +35,34 @@ Execute the "Open Current File in Delphi" command via:
 - Delphi IDE installed and configured
 - **[DRipExtensions](https://github.com/mattia72/DRipGrepper)** 4.10.0 or higher must be installed and configured in Delphi
 
-![DRipExtensions config](images/dripgrepper-extension-config.png)
+## Installation
 
-## Install
+1. Open Visual Studio Code
+2. Go to the Extensions view (Ctrl+Shift+X)
+3. Search for "Open in Delphi" 
+4. Click "Install" on the extension by Mattia72-OpenInDelphi
+5. Alternatively, visit the [marketplace page](https://marketplace.visualstudio.com/items?itemName=Mattia72-OpenInDelphi.openindelphi) and click "Install"
 
-Use [marketplace](https://marketplace.visualstudio.com/items?itemName=Mattia72-OpenInDelphi.openindelphi)
+### Prerequisites Setup
+
+**Important**: This extension requires DRipExtensions to be installed in Delphi to work properly.
+
+1. **Install DRipExtensions in Delphi:**
+   - Download DRipExtensions from [GitHub releases](https://github.com/mattia72/DRipGrepper/releases)
+   - Install it in your Delphi IDE (version 4.10.0 or higher required)
+
+2. **Configure DRipExtensions:**
+   - Open Delphi IDE
+   - Go to Tools → DRipExtensions → :gear: Settings
+   - If necessary, configure the "Open With" settings as shown in the screenshot above
+   - Make sure the "Handle Open in Delphi commands" checkbox is checked
+   ![DRipExtensions config](images/dripgrepper-extension-config.png)
+
+
+3. **Verify Installation:**
+   - Open a Pascal file in VS Code
+   - Press Shift+Alt+D or use Command Palette → "Open Current File in Delphi"
+   - The file should open in Delphi IDE at the same line/column
 
 ## Extension Settings
 
