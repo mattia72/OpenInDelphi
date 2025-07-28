@@ -38,7 +38,7 @@
 			"group": "test"
 		},
 		{
-			"label": "OpenInDelphi: Package & local install",
+			"label": "OpenInDelphi: Package patch & local install",
 			"type": "shell",
 			"command": "npm",
 			"args": [
@@ -68,17 +68,17 @@
 			"group": "build"
 		},
 		{
-			"label": "OpenInDelphi: Debug in new Code instance",
+			"label": "OpenInDelphi: Package no new version & Debug in new Code instance",
 			"type": "shell",
 			"command": "npm",
 			"args": [
 				"run",
-				"debug"
+				"release-no-new-version"
 			],
 			"group": "build"
 		},
 		{
-			"label": "OpenInDelphi: Release to Marketplace",
+			"label": "OpenInDelphi: Release to GitHub",
 			"type": "shell",
 			"command": "npm",
 			"args": [
@@ -88,7 +88,7 @@
 			"group": "build"
 		},
 		{
-			"label": "OpenInDelphi: Release Minor to Marketplace",
+			"label": "OpenInDelphi: Release Minor to GitHub",
 			"type": "shell",
 			"command": "npm",
 			"args": [
@@ -98,12 +98,21 @@
 			"group": "build"
 		},
 		{
-			"label": "OpenInDelphi: Release Major to Marketplace",
+			"label": "OpenInDelphi: Release Major to GitHub",
 			"type": "shell",
 			"command": "npm",
 			"args": [
 				"run",
 				"release-major"
+			],
+			"group": "build"
+		},
+		{
+			"label": "OpenInDelphi: Publish to Marketplace",
+			"type": "shell",
+			"command": "vsce",
+			"args": [
+				"publish"
 			],
 			"group": "build"
 		}

@@ -1,8 +1,10 @@
 # release.ps1
 param(
     [ValidateSet("patch", "minor", "major")]
-    [string]$versionType = "",
-    [switch]$debug
+    [string]$VersionType = "",
+    [switch]$SkipVersionBump,
+    [switch]$SkipCreateRelease, 
+    [switch]$DryRun
 )
 
 # Stop script on first error
@@ -60,14 +62,15 @@ function Build-ReleaseNotes {
 
 Write-Host "Starting release process with version type: $versionType..."
 
-# 1. Bump version and create the .vsix package
-if ($debug) {
-    Write-Host "Bumping version and packaging debug version..."
-    vsce package 
-}
-else {
-    Write-Host "Bumping version and packaging $versionType version..."
-    vsce package #$versionType
+if (-not $DryRun ) {
+    if ($SkipVersionBump) {
+        Write-Host "Create release without bumping version..."
+        vsce package 
+    }
+    else {
+        Write-Host "Bumping version and packaging $versionType version..."
+        vsce package $versionType
+    }
 }
 
 # 2. Get the new version and VSIX filename from package.json
@@ -108,13 +111,21 @@ try {
             Write-Error "FATAL: GITHUB_TOKEN environment variable is not set. Please set it with a personal access token."
             exit 1
         }
-        $releaseNotes = Get-Content $tempNotesFile -Raw
-        New-GitHubRelease -repo "mattia72/OpenInDelphi" -tagName $tagName -releaseName "Release $tagName" -releaseNotes $releaseNotes -vsixFile $vsixFile -githubToken $githubToken
+
+        $params = @{
+            Repo          = "mattia72/OpenInDelphi"
+            TagName       = $tagName
+            ReleaseName   = "Release $tagName"
+            ReleaseNotes  = $(Get-Content $tempNotesFile -Raw)
+            VsixFile      = $vsixFile
+            GithubToken   = $githubToken
+            SkipCreateRelease = $SkipCreateRelease
+            DryRun        = $DryRun
+        }
+        New-GitHubRelease @params    
     }
     catch {
         Write-Error "Failed to create GitHub release. Error: $_"
-        Write-Error "Please check your 'gh' CLI authentication and permissions."
-        Write-Error "You can verify your token and permissions in your GitHub account settings."
         exit 1
     }
 }
