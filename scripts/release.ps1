@@ -1,7 +1,7 @@
 # release.ps1
 param(
     [ValidateSet("patch", "minor", "major")]
-    [string]$versionType = "patch",
+    [string]$versionType = "",
     [switch]$debug
 )
 
@@ -67,7 +67,7 @@ if ($debug) {
 }
 else {
     Write-Host "Bumping version and packaging $versionType version..."
-    vsce package $versionType
+    vsce package #$versionType
 }
 
 # 2. Get the new version and VSIX filename from package.json
@@ -85,45 +85,43 @@ if (-not (Test-Path $vsixFile)) {
     exit 1
 }
 
-if (-not $debug) {
-    try { 
-        # Build release notes using the separate function
-        $tempNotesFile = Build-ReleaseNotes -newVersion $newVersion
+try { 
+    # Build release notes using the separate function
+    $tempNotesFile = Build-ReleaseNotes -newVersion $newVersion
     
-        Write-Host "Creating release with tag: $tagName"
-        Write-Host "Title: Release $tagName"
-        Write-Host $(Get-Content $tempNotesFile)
+    Write-Host "Creating release with tag: $tagName"
+    Write-Host "Title: Release $tagName"
+    Write-Host $(Get-Content $tempNotesFile)
 
-        Read-Host "Do you want to continue with release creation? (Y/N)" -OutVariable userInput
-        if ($userInput -inotmatch "Y") {
-            Write-Host "Release creation aborted."
-            exit 0
-        }
+    Read-Host "Do you want to continue with release creation? (Y/N)" -OutVariable userInput
+    if ($userInput -inotmatch "Y") {
+        Write-Host "Release creation aborted."
+        exit 0
+    }
     
-        try {
-            # Create release with notes from file
-            Write-Host "Creating GitHub Release and uploading package..."
-            # Check if gh.exe is installed (filter out aliases)
-            $ghCommand = Get-Command gh -ErrorAction SilentlyContinue -CommandType Application
-            if (-not $ghCommand) {
-                Write-Error "FATAL: 'gh.exe' CLI is not installed or not found in PATH. Please install it from https://cli.github.com/ and ensure it's in your PATH."
-                exit 1
-            }
-            & $ghCommand.Source release create $tagName --title "Release $tagName" --notes-file $tempNotesFile "$vsixFile"
-            Write-Host "Release $tagName successfully created and asset uploaded!"
-        }
-        catch {
-            Write-Error "Failed to create GitHub release. Error: $_"
-            Write-Error "Please check your 'gh' CLI authentication and permissions."
-            Write-Error "You can verify your status by running: gh auth status"
+    try {
+        # Create release with notes from file using PowerShell function
+        Write-Host "Creating GitHub Release and uploading package via API..."
+        . "$PSScriptRoot/gh-release.ps1"
+        $githubToken = $(Get-Content $PSScriptRoot/SECRET_TOKEN)[0]
+        if (-not $githubToken) {
+            Write-Error "FATAL: GITHUB_TOKEN environment variable is not set. Please set it with a personal access token."
             exit 1
         }
+        $releaseNotes = Get-Content $tempNotesFile -Raw
+        New-GitHubRelease -repo "mattia72/OpenInDelphi" -tagName $tagName -releaseName "Release $tagName" -releaseNotes $releaseNotes -vsixFile $vsixFile -githubToken $githubToken
     }
-    finally {
-        # Clean up temporary file
-        if (Test-Path $tempNotesFile) {
-            Remove-Item $tempNotesFile -Force
-        }
+    catch {
+        Write-Error "Failed to create GitHub release. Error: $_"
+        Write-Error "Please check your 'gh' CLI authentication and permissions."
+        Write-Error "You can verify your token and permissions in your GitHub account settings."
+        exit 1
+    }
+}
+finally {
+    # Clean up temporary file
+    if (Test-Path $tempNotesFile -ErrorAction SilentlyContinue) {
+        Remove-Item $tempNotesFile -Force -ErrorAction SilentlyContinue
     }
 }
 
