@@ -2,6 +2,14 @@
 
 All notable changes to the "openindelphi" extension will be documented in this file.
 
+## [1.0.29] - 2025-08-07
+### Fixed
+- Release script call corrected in package.json
+
+## [1.0.28] - 2025-08-07
+### Changed
+- Delphi window activation logic improved to handle minimized state more effectively.
+
 ## [1.0.27] - 2025-07-28
 ### Added
 - Github release script uses `GitHubReleaseUtils.ps1` for reusable functions.
