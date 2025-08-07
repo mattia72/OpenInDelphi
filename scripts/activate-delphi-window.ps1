@@ -4,9 +4,8 @@
 
 [CmdletBinding()]
 param (
-    [switch]$ForceOldMethod
+    [switch]$ForceOldSetForegroundMethod
 )
-    
 
 # Define WinUser API functions
 Add-Type -MemberDefinition @"
@@ -104,8 +103,7 @@ function Find-DelphiMainWindow {
     return $script:foundWindows
 } 
 
-# Function to activate a window
-function Activate-Window {
+function Set-WindowActive {
     param(
         [IntPtr]$hWnd,
         [string]$ProcessName
@@ -147,7 +145,7 @@ try {
         
         # Find all top-level windows with non-empty titles for this process
         $candidateWindows = @()
-        if (-not $ForceOldMethod) {
+        if (-not $ForceOldSetForegroundMethod) {
             $candidateWindows = Find-DelphiMainWindow -ProcessId $process.Id
         }
         if ($candidateWindows.Count -eq 0) {
@@ -158,7 +156,7 @@ try {
             $delphiHwnd = $window.Handle
         }
         Write-Host "Attempting to activate window: 0x$($delphiHwnd.ToString('X8')) - Title: '$($window.Title)'"
-        if (Activate-Window -hWnd $delphiHwnd -ProcessName $process.ProcessName) {
+        if (Set-WindowActive -hWnd $delphiHwnd -ProcessName $process.ProcessName) {
             $activated = $true
             break
         }
