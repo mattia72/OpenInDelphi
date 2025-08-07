@@ -1,8 +1,8 @@
-# PowerShell-Skript zum Aktivieren des Delphi-Fensters
-# Autor: mattia72
-# Beschreibung: Findet und aktiviert das Delphi IDE-Fenster
+# PowerShell script to activate the Delphi window
+# Author: mattia72
+# Description: Finds and activates the Delphi IDE window
 
-# Win32 API Funktionen definieren
+# Define Win32 API functions
 Add-Type -MemberDefinition @"
     [DllImport("user32.dll")]
     public static extern bool SetForegroundWindow(IntPtr hWnd);
@@ -12,9 +12,12 @@ Add-Type -MemberDefinition @"
     
     [DllImport("user32.dll")]
     public static extern bool IsWindow(IntPtr hWnd);
+    
+    [DllImport("user32.dll")]
+    public static extern bool IsIconic(IntPtr hWnd);
 "@ -Name Win32 -Namespace Win32Functions
 
-# Funktion zum Aktivieren eines Fensters
+# Function to activate a window
 function Activate-Window {
     param(
         [IntPtr]$WindowHandle,
@@ -22,24 +25,25 @@ function Activate-Window {
     )
     
     if ([Win32Functions.Win32]::IsWindow($WindowHandle)) {
-        # SW_RESTORE = 9 (Fenster wiederherstellen falls minimiert)
-        [Win32Functions.Win32]::ShowWindow($WindowHandle, 9) | Out-Null
+        # Check if window is minimized (iconic)
+        if ([Win32Functions.Win32]::IsIconic($WindowHandle)) {
+            # SW_RESTORE = 9 (restore window if minimized)
+            [Win32Functions.Win32]::ShowWindow($WindowHandle, 9) | Out-Null
+            Write-Host "Delphi window restored from minimized state for process: $ProcessName"
+        } else {
+            Write-Host "Delphi window brought to foreground for process: $ProcessName"
+        }
+        
+        # Always set foreground
         [Win32Functions.Win32]::SetForegroundWindow($WindowHandle) | Out-Null
-        Write-Host "Delphi window activated for process: $ProcessName"
         return $true
     }
     return $false
 }
 
-# Hauptlogik
+# Main logic
 try {
-    $delphiProcesses = Get-Process | Where-Object {
-        $_.ProcessName -like "*bds*" -or 
-        $_.ProcessName -like "*delphi*" -or 
-        $_.MainWindowTitle -like "*Delphi*" -or
-        $_.MainWindowTitle -like "*RAD Studio*"
-    }
-    
+    $delphiProcesses = Get-Process -Name bds
     $activated = $false
     
     foreach ($process in $delphiProcesses) {
