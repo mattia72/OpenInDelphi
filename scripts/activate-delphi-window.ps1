@@ -2,7 +2,7 @@
 # Author: mattia72
 # Description: Finds and activates the Delphi IDE window
 
-# Define Win32 API functions
+# Define WinUser API functions
 Add-Type -MemberDefinition @"
     [DllImport("user32.dll")]
     public static extern bool SetForegroundWindow(IntPtr hWnd);
@@ -15,7 +15,7 @@ Add-Type -MemberDefinition @"
     
     [DllImport("user32.dll")]
     public static extern bool IsIconic(IntPtr hWnd);
-"@ -Name Win32 -Namespace Win32Functions
+"@ -Name WinUser -Namespace Win32Api
 
 # Function to activate a window
 function Activate-Window {
@@ -24,18 +24,22 @@ function Activate-Window {
         [string]$ProcessName
     )
     
-    if ([Win32Functions.Win32]::IsWindow($WindowHandle)) {
+    if ([Win32Api.WinUser]::IsWindow($WindowHandle)) {
+        $SW_SHOW = 5 
+        $SW_RESTORE = 9 
         # Check if window is minimized (iconic)
-        if ([Win32Functions.Win32]::IsIconic($WindowHandle)) {
-            # SW_RESTORE = 9 (restore window if minimized)
-            [Win32Functions.Win32]::ShowWindow($WindowHandle, 9) | Out-Null
-            Write-Host "Delphi window restored from minimized state for process: $ProcessName"
-        } else {
-            Write-Host "Delphi window brought to foreground for process: $ProcessName"
+        if ([Win32Api.WinUser]::IsIconic($WindowHandle)) {
+            $CmdShow = $SW_RESTORE # Restore window if minimized
+            Write-Host "Delphi window is minimized"
         }
-        
-        # Always set foreground
-        [Win32Functions.Win32]::SetForegroundWindow($WindowHandle) | Out-Null
+        else {
+            $CmdShow = $SW_SHOW # Use SW_SHOW if not minimized
+            Write-Host "Delphi window is not minimized"
+        }
+
+        [Win32Api.WinUser]::ShowWindow($WindowHandle, $CmdShow) | Out-Null
+        [Win32Api.WinUser]::SetForegroundWindow($WindowHandle) | Out-Null
+        Write-Host "Delphi window brought to foreground for process: $ProcessName"
         return $true
     }
     return $false
@@ -62,7 +66,8 @@ try {
     
     exit 0
     
-} catch {
+}
+catch {
     Write-Error "Error activating Delphi window: $($_.Exception.Message)"
     exit 1
 }
