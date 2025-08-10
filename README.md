@@ -15,6 +15,7 @@ Requires **[DRipExtensions](https://github.com/mattia72/DRipGrepper)** to be ins
 Execute the "Open Current File in Delphi" command via:
    - Command Palette (Ctrl+Shift+P) -> "Open Current File in Delphi"
    - Default keyboard shortcut: **Shift+Alt+D**
+   - Right-click context menu in the editor or file explorer
 
 ### Switch From Delphi to VS Code
  

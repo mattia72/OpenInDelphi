@@ -36,7 +36,21 @@
         "key": "shift+alt+d",
         "when": "editorTextFocus"
       }
-    ]
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "openindelphi.openCurrentFileInDelphi",
+          "group": "navigation@1"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "openindelphi.openCurrentFileInDelphi",
+          "group": "navigation@1"
+        }
+      ]
+    }
   },
   "scripts": {
     "lint": "eslint .",
