@@ -2,7 +2,7 @@
   "name": "openindelphi",
   "displayName": "Open in Delphi",
   "description": "Opens current file in Delphi IDE",
-  "version": "1.0.29",
+  "version": "1.1.0",
   "publisher": "Mattia72-OpenInDelphi",
   "icon": "images/icon.png",
   "repository": {
@@ -45,7 +45,9 @@
           "items": {
             "type": "string"
           },
-          "default": ["*"],
+          "default": [
+            "*"
+          ],
           "description": "Show context menu only for files with these extensions. Use '*' for all file extensions, empty string '' for files without extension. Example: ['pas', 'dpr', 'dpk', ''] for Delphi files and files without extension"
         }
       }
