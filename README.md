@@ -68,7 +68,15 @@ Execute the "Open Current File in Delphi" command via:
 
 ## Extension Settings
 
-This extension does not contribute any custom settings.
+This extension provides the following settings:
+
+- `openindelphi.showContextMenu`: Enable/disable the context menu item (default: `true`)
+- `openindelphi.showContextMenuOnFileExtension`: Show context menu only for files with specified extensions (default: `["*"]`)
+  - Use `["*"]` to show for all file types
+  - Use specific extensions like `["pas", "dpr", "dpk"]` to show only for Delphi files
+  - Use empty string `[""]` to show only for files without extension (e.g., Makefile, README)
+  - Use combination like `["pas", "dpr", ""]` to show for Delphi files and files without extension
+  - Use empty array `[]` to disable context menu completely
 
 ## Known Issues
 

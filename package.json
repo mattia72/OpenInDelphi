@@ -21,7 +21,9 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./extension.js",
   "contributes": {
     "commands": [
@@ -30,6 +32,24 @@
         "title": "Open Current File in Delphi"
       }
     ],
+    "configuration": {
+      "title": "Open in Delphi",
+      "properties": {
+        "openindelphi.showContextMenu": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show context menu item 'Open Current File in Delphi'"
+        },
+        "openindelphi.showContextMenuOnFileExtension": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": ["*"],
+          "description": "Show context menu only for files with these extensions. Use '*' for all file extensions, empty string '' for files without extension. Example: ['pas', 'dpr', 'dpk', ''] for Delphi files and files without extension"
+        }
+      }
+    },
     "keybindings": [
       {
         "command": "openindelphi.openCurrentFileInDelphi",
@@ -41,19 +61,21 @@
       "editor/context": [
         {
           "command": "openindelphi.openCurrentFileInDelphi",
-          "group": "navigation@1"
+          "group": "navigation@1",
+          "when": "openindelphi.shouldShowContextMenu"
         }
       ],
       "explorer/context": [
         {
           "command": "openindelphi.openCurrentFileInDelphi",
-          "group": "navigation@1"
+          "group": "navigation@1",
+          "when": "openindelphi.shouldShowContextMenu"
         }
       ]
     }
   },
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint *.js",
     "pretest": "npm run lint",
     "test": "vscode-test",
     "package": "vsce package patch && pwsh -c \"code --install-extension (Get-ChildItem openindelphi-*.vsix | Sort-Object LastWriteTime -Descending | Select-Object -First 1).Name\"",
