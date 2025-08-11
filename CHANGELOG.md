@@ -6,6 +6,7 @@ All notable changes to the "openindelphi" extension will be documented in this f
 ### Added
 - Context menu support for opening files in Delphi
 - Settings of context menu behavior
+- File extension filtering for context menu visibility
 
 ## [1.0.29] - 2025-08-07
 ### Fixed

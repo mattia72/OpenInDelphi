@@ -84,5 +84,16 @@ No known issues at this time. Please report any bugs or feature requests on the 
 
 ## Release Notes
 
-- Default keyboard shortcut (Shift+Alt+D) for 'Open Current File in Delphi' command
-- User notification if sending to Delphi via the pipe fails, with suggestion to check Delphi and DripExtensions settings
+### [1.1.0] - 2025-08-07
+- Added context menu support for opening files in Delphi IDE
+- Added configurable context menu behavior through extension settings
+- File extension filtering for context menu visibility
+
+### Previous Releases
+- [1.0.29] - Fixed release script call in package.json
+- [1.0.28] - Improved Delphi window activation logic for minimized state handling
+- [1.0.27] - Updated README.md and improved release automation
+- [1.0.13] - Added default keyboard shortcut (Shift+Alt+D) and user notification for pipe failures
+- [1.0.0] - Initial release with basic functionality to open files in Delphi IDE
+
+For complete changelog, see [CHANGELOG.md](CHANGELOG.md)
