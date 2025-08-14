@@ -85,6 +85,7 @@ No known issues at this time. Please report any bugs or feature requests on the 
 ## Release Notes
 
 ## [1.1.1] - 2025-08-07
+
 ### Fixed
 - Package size reduced due to removal of unnecessary files
 
