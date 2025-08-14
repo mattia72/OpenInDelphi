@@ -78,41 +78,12 @@
 			"group": "build"
 		},
 		{
-			"label": "OpenInDelphi: Release to GitHub",
+			"label": "OpenInDelphi: Publish to GitHub & Marketplace",
 			"type": "shell",
 			"command": "npm",
 			"args": [
 				"run",
-				"release"
-			],
-			"group": "build"
-		},
-		{
-			"label": "OpenInDelphi: Release Minor to GitHub",
-			"type": "shell",
-			"command": "npm",
-			"args": [
-				"run",
-				"release-minor"
-			],
-			"group": "build"
-		},
-		{
-			"label": "OpenInDelphi: Release Major to GitHub",
-			"type": "shell",
-			"command": "npm",
-			"args": [
-				"run",
-				"release-major"
-			],
-			"group": "build"
-		},
-		{
-			"label": "OpenInDelphi: Publish to Marketplace",
-			"type": "shell",
-			"command": "vsce",
-			"args": [
-				"publish"
+				"publish-current-version"
 			],
 			"group": "build"
 		}
