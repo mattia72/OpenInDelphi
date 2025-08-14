@@ -58,7 +58,7 @@ Execute the "Open Current File in Delphi" command via:
        - **Parameters**: `--reuse-window --goto "<FILE>:<LINE>:<COL>"`
          
    - Make sure the "Handle Open in Delphi commands" checkbox is checked
-   ![DRipExtensions config](images/dripgrepper-extension-config.png)
+   ![DRipExtensions config](images/dripgrepper-extension-config-screenshot.png)
 
 
 3. **Verify Installation:**
@@ -84,12 +84,15 @@ No known issues at this time. Please report any bugs or feature requests on the 
 
 ## Release Notes
 
-### [1.1.0] - 2025-08-07
-- Added context menu support for opening files in Delphi IDE
-- Added configurable context menu behavior through extension settings
-- File extension filtering for context menu visibility
+## [1.1.1] - 2025-08-07
+
+### Fixed
+- Package size reduced due to removal of unnecessary files
 
 ### Previous Releases
+- [1.1.0] - Added context menu support for opening files in Delphi IDE
+  - Added configurable context menu behavior through extension settings
+  - File extension filtering for context menu visibility
 - [1.0.29] - Fixed release script call in package.json
 - [1.0.28] - Improved Delphi window activation logic for minimized state handling
 - [1.0.27] - Updated README.md and improved release automation
