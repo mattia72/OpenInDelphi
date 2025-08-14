@@ -2,6 +2,10 @@
 
 All notable changes to the "openindelphi" extension will be documented in this file.
 
+## [1.1.1] - 2025-08-07
+### Fixed
+- Package size reduced due to removal of unnecessary files
+
 ## [1.1.0] - 2025-08-07
 ### Added
 - Context menu support for opening files in Delphi

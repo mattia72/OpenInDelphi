@@ -8,3 +8,13 @@ vsc-extension-quickstart.md
 **/*.map
 **/eslint.config.mjs
 **/.vscode-test.*
+scripts/SECRET_TOKEN
+scripts/MARKETPLACE_TOKEN
+scripts/release.ps1
+scripts/gh-release.ps1
+temp_release_notes.txt
+images/*screenshot*
+**/*TOKEN*
+**/*token*
+.env
+.env.*
