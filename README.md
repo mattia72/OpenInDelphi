@@ -49,7 +49,6 @@ Execute the "Open Current File in Delphi" command via:
    - Open Delphi IDE
    - Go to Tools → DRipExtensions → :gear: Settings
    - If necessary, configure the "Open With" settings as shown in the screenshot
-   
    ![Open with in Delphi](images/open-with-screenshot.png)
 
      - If for some reason it is not in the list, configure a new entry with the following parameters:
