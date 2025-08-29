@@ -72,6 +72,38 @@ class DelphiCommander {
         }
     }
 
+    static buildActiveProjectInDelphi() {
+        const vscode = require('vscode');
+        const pipeData = {
+            command: 'buildActiveProject',
+            timestamp: new Date().toISOString()
+        };
+        
+        try {
+            DelphiCommander.sendCommandToDelphi(pipeData);
+            vscode.window.showInformationMessage('Build command sent to Delphi');
+        } catch (error) {
+            console.error('Error sending build command:', error);
+            vscode.window.showErrorMessage('Failed to send build command to Delphi');
+        }
+    }
+
+    static compileActiveProjectInDelphi() {
+        const vscode = require('vscode');
+        const pipeData = {
+            command: 'compileActiveProject', 
+            timestamp: new Date().toISOString()
+        };
+        
+        try {
+            DelphiCommander.sendCommandToDelphi(pipeData);
+            vscode.window.showInformationMessage('Compile command sent to Delphi');
+        } catch (error) {
+            console.error('Error sending compile command:', error);
+            vscode.window.showErrorMessage('Failed to send compile command to Delphi');
+        }
+    }
+
     // createPipeData entfällt, Logik wandert nach getActiveEditorData
 
     static getActiveEditorData(activeEditor) {

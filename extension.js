@@ -10,9 +10,17 @@ const { DelphiCommander } = require('./delphiCommander');
 function activate(context) {
 	console.log('Congratulations, your extension "OpenInDelphi" is now active!');
 	
-	// Register the command
-	const commandDisposable = vscode.commands.registerCommand('openindelphi.openCurrentFileInDelphi', () => {
+	// Register the commands
+	const openFileCommandDisposable = vscode.commands.registerCommand('openindelphi.openCurrentFileInDelphi', () => {
 		DelphiCommander.openCurrentFileInDelphi();
+	});
+
+	const buildProjectCommandDisposable = vscode.commands.registerCommand('openindelphi.buildActiveProjectInDelphi', () => {
+		DelphiCommander.buildActiveProjectInDelphi();
+	});
+
+	const compileProjectCommandDisposable = vscode.commands.registerCommand('openindelphi.compileActiveProjectInDelphi', () => {
+		DelphiCommander.compileActiveProjectInDelphi();
 	});
 	
 	// Create a command that checks if context menu should be visible
@@ -20,7 +28,7 @@ function activate(context) {
 		return shouldShowContextMenu();
 	});
 	
-	context.subscriptions.push(commandDisposable, checkContextMenuDisposable);
+	context.subscriptions.push(openFileCommandDisposable, buildProjectCommandDisposable, compileProjectCommandDisposable, checkContextMenuDisposable);
 	
 	// Function to update the context menu visibility
 	const updateContextMenuVisibility = () => {

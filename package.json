@@ -29,7 +29,15 @@
     "commands": [
       {
         "command": "openindelphi.openCurrentFileInDelphi",
-        "title": "Open Current File in Delphi"
+        "title": "Open in Delphi: Open Current File in Delphi"
+      },
+      {
+        "command": "openindelphi.buildActiveProjectInDelphi",
+        "title": "Open in Delphi: Build Active Project in Delphi"
+      },
+      {
+        "command": "openindelphi.compileActiveProjectInDelphi",
+        "title": "Open in Delphi: Compile Active Project in Delphi"
       }
     ],
     "configuration": {
@@ -57,6 +65,16 @@
         "command": "openindelphi.openCurrentFileInDelphi",
         "key": "shift+alt+d",
         "when": "editorTextFocus"
+      },
+      {
+        "command": "openindelphi.buildActiveProjectInDelphi",
+        "key": "shift+alt+b",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "openindelphi.compileActiveProjectInDelphi",
+        "key": "shift+alt+c",
+        "when": "editorTextFocus"
       }
     ],
     "menus": {
@@ -65,12 +83,32 @@
           "command": "openindelphi.openCurrentFileInDelphi",
           "group": "navigation@1",
           "when": "openindelphi.shouldShowContextMenu"
+        },
+        {
+          "command": "openindelphi.buildActiveProjectInDelphi",
+          "group": "navigation@2",
+          "when": "openindelphi.shouldShowContextMenu"
+        },
+        {
+          "command": "openindelphi.compileActiveProjectInDelphi",
+          "group": "navigation@3", 
+          "when": "openindelphi.shouldShowContextMenu"
         }
       ],
       "explorer/context": [
         {
           "command": "openindelphi.openCurrentFileInDelphi",
           "group": "navigation@1",
+          "when": "openindelphi.shouldShowContextMenu"
+        },
+        {
+          "command": "openindelphi.buildActiveProjectInDelphi",
+          "group": "navigation@2",
+          "when": "openindelphi.shouldShowContextMenu"
+        },
+        {
+          "command": "openindelphi.compileActiveProjectInDelphi",
+          "group": "navigation@3",
           "when": "openindelphi.shouldShowContextMenu"
         }
       ]
@@ -94,6 +132,7 @@
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
     "eslint": "^9.25.1",
+    "@vscode/vsce": "^3.6.0",
     "@vscode/test-cli": "^0.0.11",
     "@vscode/test-electron": "^2.5.2"
   }
