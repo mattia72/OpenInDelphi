@@ -5,10 +5,30 @@ Requires **[DRipExtensions](https://github.com/mattia72/DRipGrepper)** to be ins
 ## Features
 
 - Opens the current file in VS Code directly in the Delphi IDE
+- Build the active project in Delphi IDE from VS Code
+- Compile the active project in Delphi IDE from VS Code
 - Seamless switch between VS Code and Delphi 
-- Easy to use via Command Palette, context menu, or keyboard shortcut
+- Easy to use via Command Palette, context menu, or keyboard shortcuts
 
 ## Usage
+
+### Commands Available
+
+The extension provides three main commands:
+
+1. **Open Current File in Delphi** - Opens the current file in VS Code directly in the Delphi IDE
+2. **Build Active Project in Delphi** - Builds the active project in Delphi IDE 
+3. **Compile Active Project in Delphi** - Compiles the active project in Delphi IDE
+
+### Using the Commands
+
+Execute any of the available commands via:
+   - **Command Palette** (Ctrl+Shift+P) -> Search for the command name
+   - **Keyboard shortcuts**:
+     - Open Current File in Delphi: **Shift+Alt+D**
+     - Build Active Project in Delphi: **Shift+Alt+B** 
+     - Compile Active Project in Delphi: **Shift+Alt+C**
+   - **Right-click context menu** in the editor or file explorer
 
 ### Switch from VS Code to Delphi 
 
@@ -64,6 +84,9 @@ Execute the "Open Current File in Delphi" command via:
    - Open a Pascal file in VS Code
    - Press Shift+Alt+D or use Command Palette → "Open Current File in Delphi"
    - The file should open in Delphi IDE at the same line/column
+   - Test build/compile commands:
+     - Press Shift+Alt+B to build the active project in Delphi
+     - Press Shift+Alt+C to compile the active project in Delphi
 
 ## Extension Settings
 
@@ -83,12 +106,15 @@ No known issues at this time. Please report any bugs or feature requests on the 
 
 ## Release Notes
 
-## [1.1.1] - 2025-08-07
+## [1.2.0] - 2025-08-29
 
-### Fixed
-- Package size reduced due to removal of unnecessary files
+### Added
+- Build Active Project in Delphi command with Shift+Alt+B keyboard shortcut
+- Compile Active Project in Delphi command with Shift+Alt+C keyboard shortcut
+- Context menu support for build and compile commands
 
 ### Previous Releases
+- [1.1.1] - Package size reduced due to removal of unnecessary files
 - [1.1.0] - Added context menu support for opening files in Delphi IDE
   - Added configurable context menu behavior through extension settings
   - File extension filtering for context menu visibility

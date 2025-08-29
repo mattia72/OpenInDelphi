@@ -2,6 +2,12 @@
 
 All notable changes to the "openindelphi" extension will be documented in this file.
 
+## [1.2.0] - 2025-08-29
+### Added
+- Build Active Project in Delphi command with Shift+Alt+B keyboard shortcut
+- Compile Active Project in Delphi command with Shift+Alt+C keyboard shortcut
+- Context menu support for build and compile commands
+
 ## [1.1.1] - 2025-08-07
 ### Fixed
 - Package size reduced due to removal of unnecessary files
