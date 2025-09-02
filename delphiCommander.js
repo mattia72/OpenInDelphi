@@ -24,7 +24,6 @@ class DelphiCommander {
         });
         client.on('end', () => {
             console.log('Successfully written to pipe:', pipeName);
-            DelphiCommander.activateDelphiWindow();
         });
     }
 
@@ -61,6 +60,7 @@ class DelphiCommander {
             DelphiCommander.getActiveEditorData(activeEditor);
             try {
                 DelphiCommander.sendCommandToDelphi(DelphiCommander.pipeData);
+                DelphiCommander.activateDelphiWindow();
             } catch (error) {
                 console.error('Error creating pipe data:', error);
             }
@@ -81,10 +81,10 @@ class DelphiCommander {
         
         try {
             DelphiCommander.sendCommandToDelphi(pipeData);
+            DelphiCommander.activateDelphiWindow();
             vscode.window.showInformationMessage('Build command sent to Delphi');
         } catch (error) {
             console.error('Error sending build command:', error);
-            vscode.window.showErrorMessage('Failed to send build command to Delphi');
         }
     }
 
@@ -97,10 +97,10 @@ class DelphiCommander {
         
         try {
             DelphiCommander.sendCommandToDelphi(pipeData);
+            DelphiCommander.activateDelphiWindow();
             vscode.window.showInformationMessage('Compile command sent to Delphi');
         } catch (error) {
             console.error('Error sending compile command:', error);
-            vscode.window.showErrorMessage('Failed to send compile command to Delphi');
         }
     }
 
