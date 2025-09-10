@@ -1,4 +1,4 @@
-. "$PSScriptRoot\..\..\..\..\delphi\RipGrepper\deploy\GitHubReleaseUtils.ps1" 
+. "$PSScriptRoot\..\..\..\delphi\RipGrepper\deploy\GitHubReleaseUtils.ps1" 
 
 function New-GitHubRelease {
     param(
