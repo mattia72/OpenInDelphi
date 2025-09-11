@@ -8,6 +8,10 @@ All notable changes to the "openindelphi" extension will be documented in this f
 - Compile Active Project in Delphi command with Shift+Alt+C keyboard shortcut
 - Context menu support for build and compile commands
 
+### Changed
+- Command palette and context menu entries now has "Open in Delphi" prefix for better clarity
+
+
 ## [1.1.1] - 2025-08-07
 ### Fixed
 - Package size reduced due to removal of unnecessary files

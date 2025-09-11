@@ -47,7 +47,7 @@ Execute the "Open Current File in Delphi" command via:
 
 - VS Code 1.102.0 or higher
 - Delphi IDE installed and configured
-- **[DRipExtensions](https://github.com/mattia72/DRipGrepper)** 4.10.0 or higher must be installed and configured in Delphi
+- **[DRipExtensions](https://github.com/mattia72/DRipGrepper)** 4.12.0 or higher must be installed and configured in Delphi
 
 ## Installation
 
