@@ -8,7 +8,7 @@
 | **1c** | Package major & local install | `package-major` | Version bump (major) + VSIX + install locally |
 | **1d** | 🔄 Package (no new version) & local install | `package-no-new-version` | Build VSIX only + install locally |
 | **Test** | Test | `test` | Run lint + tests |
-| **2** | 🚀 Release to GitHub | `release` | Create GitHub release (no version bump) |
+| **2** | 🚀 Release to GitHub | `release` | Create GitHub release (_**no version bump**_) |
 | **3** | 📦 Publish to Marketplace | `publish` | Publish to VS Code Marketplace |
 | **2+3** | 🚀📦 Release & Publish | `release-and-publish` | GitHub release + Marketplace in one step |
 
