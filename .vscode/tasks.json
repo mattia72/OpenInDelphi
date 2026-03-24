@@ -68,22 +68,42 @@
 			"group": "build"
 		},
 		{
-			"label": "OpenInDelphi: Package no new version & Debug in new Code instance",
+			"label": "OpenInDelphi: 🔄 Package (no new version) & local install",
 			"type": "shell",
 			"command": "npm",
 			"args": [
 				"run",
-				"release-no-new-version"
+				"package-no-new-version"
 			],
 			"group": "build"
 		},
 		{
-			"label": "OpenInDelphi: Publish to GitHub & Marketplace",
+			"label": "OpenInDelphi: 🚀 Release to GitHub",
 			"type": "shell",
 			"command": "npm",
 			"args": [
 				"run",
-				"publish-current-version"
+				"release"
+			],
+			"group": "build"
+		},
+		{
+			"label": "OpenInDelphi: 📦 Publish to Marketplace",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"publish"
+			],
+			"group": "build"
+		},
+		{
+			"label": "OpenInDelphi: 🚀📦 Release & Publish",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"release-and-publish"
 			],
 			"group": "build"
 		}
