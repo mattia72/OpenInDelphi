@@ -22,18 +22,29 @@ function activate(context) {
 	const compileProjectCommandDisposable = vscode.commands.registerCommand('openindelphi.compileActiveProjectInDelphi', () => {
 		DelphiCommander.compileActiveProjectInDelphi();
 	});
+
+	const switchToPasDisposable = vscode.commands.registerCommand('openindelphi.switchToPasFile', () => {
+		switchToSiblingFile('.pas');
+	});
+
+	const switchToDfmDisposable = vscode.commands.registerCommand('openindelphi.switchToDfmFile', () => {
+		switchToSiblingFile('.dfm');
+	});
 	
 	// Create a command that checks if context menu should be visible
 	const checkContextMenuDisposable = vscode.commands.registerCommand('openindelphi.checkContextMenu', () => {
 		return shouldShowContextMenu();
 	});
 	
-	context.subscriptions.push(openFileCommandDisposable, buildProjectCommandDisposable, compileProjectCommandDisposable, checkContextMenuDisposable);
+	context.subscriptions.push(openFileCommandDisposable, buildProjectCommandDisposable, compileProjectCommandDisposable, switchToPasDisposable, switchToDfmDisposable, checkContextMenuDisposable);
 	
 	// Function to update the context menu visibility
 	const updateContextMenuVisibility = () => {
 		const shouldShow = shouldShowContextMenu();
 		vscode.commands.executeCommand('setContext', 'openindelphi.shouldShowContextMenu', shouldShow);
+
+		updateSwitchFileContextMenuVisibility();
+
 		console.log('OpenInDelphi context menu visibility updated:', shouldShow);
 	};
 	
@@ -66,6 +77,42 @@ function activate(context) {
 	});
 	
 	context.subscriptions.push(configChangeDisposable, editorChangeDisposable, documentOpenDisposable, selectionChangeDisposable, visibleEditorsChangeDisposable);
+}
+
+/**
+ * Update context variables for switch-to-dfm and switch-to-pas menu items
+ */
+async function updateSwitchFileContextMenuVisibility() {
+	const activeEditor = vscode.window.activeTextEditor;
+	if (!activeEditor) {
+		vscode.commands.executeCommand('setContext', 'openindelphi.hasSiblingDfm', false);
+		vscode.commands.executeCommand('setContext', 'openindelphi.isDfmFile', false);
+		return;
+	}
+
+	const currentPath = activeEditor.document.uri.fsPath;
+	const ext = getFileExtension(currentPath).toLowerCase();
+	const isDfm = ext === 'dfm';
+
+	vscode.commands.executeCommand('setContext', 'openindelphi.isDfmFile', isDfm);
+
+	// Check if sibling .dfm file exists (only relevant for non-dfm files)
+	if (!isDfm) {
+		const lastDotIndex = currentPath.lastIndexOf('.');
+		if (lastDotIndex !== -1) {
+			const dfmPath = currentPath.substring(0, lastDotIndex) + '.dfm';
+			try {
+				await vscode.workspace.fs.stat(vscode.Uri.file(dfmPath));
+				vscode.commands.executeCommand('setContext', 'openindelphi.hasSiblingDfm', true);
+			} catch {
+				vscode.commands.executeCommand('setContext', 'openindelphi.hasSiblingDfm', false);
+			}
+		} else {
+			vscode.commands.executeCommand('setContext', 'openindelphi.hasSiblingDfm', false);
+		}
+	} else {
+		vscode.commands.executeCommand('setContext', 'openindelphi.hasSiblingDfm', false);
+	}
 }
 
 /**
@@ -137,6 +184,36 @@ function getFileExtension(filePath) {
 	}
 	
 	return filePath.substring(lastDotIndex + 1);
+}
+
+/**
+ * Switch to a sibling file with the given extension (.pas or .dfm)
+ * @param {string} targetExt - The target extension (e.g. '.pas' or '.dfm')
+ */
+async function switchToSiblingFile(targetExt) {
+	const activeEditor = vscode.window.activeTextEditor;
+	if (!activeEditor) {
+		vscode.window.showWarningMessage('No active editor.');
+		return;
+	}
+
+	const currentPath = activeEditor.document.uri.fsPath;
+	const lastDotIndex = currentPath.lastIndexOf('.');
+	if (lastDotIndex === -1) {
+		vscode.window.showWarningMessage('Current file has no extension.');
+		return;
+	}
+
+	const basePath = currentPath.substring(0, lastDotIndex);
+	const targetPath = basePath + targetExt;
+	const targetUri = vscode.Uri.file(targetPath);
+
+	try {
+		await vscode.workspace.fs.stat(targetUri);
+		await vscode.window.showTextDocument(targetUri);
+	} catch {
+		vscode.window.showWarningMessage(`File not found: ${targetPath}`);
+	}
 }
 
 // This method is called when your extension is deactivated

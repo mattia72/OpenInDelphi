@@ -38,6 +38,14 @@
       {
         "command": "openindelphi.compileActiveProjectInDelphi",
         "title": "Open in Delphi: Compile Active Project in Delphi"
+      },
+      {
+        "command": "openindelphi.switchToPasFile",
+        "title": "Open in Delphi: Switch to .pas File"
+      },
+      {
+        "command": "openindelphi.switchToDfmFile",
+        "title": "Open in Delphi: Switch to .dfm File"
       }
     ],
     "configuration": {
@@ -75,6 +83,16 @@
         "command": "openindelphi.compileActiveProjectInDelphi",
         "key": "shift+alt+c",
         "when": "editorTextFocus"
+      },
+      {
+        "command": "openindelphi.switchToPasFile",
+        "key": "shift+alt+p",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "openindelphi.switchToDfmFile",
+        "key": "shift+alt+f",
+        "when": "editorTextFocus"
       }
     ],
     "menus": {
@@ -93,6 +111,16 @@
           "command": "openindelphi.compileActiveProjectInDelphi",
           "group": "navigation@3",
           "when": "openindelphi.shouldShowContextMenu"
+        },
+        {
+          "command": "openindelphi.switchToDfmFile",
+          "group": "navigation@4",
+          "when": "openindelphi.shouldShowContextMenu && openindelphi.hasSiblingDfm"
+        },
+        {
+          "command": "openindelphi.switchToPasFile",
+          "group": "navigation@5",
+          "when": "openindelphi.shouldShowContextMenu && openindelphi.isDfmFile"
         }
       ],
       "explorer/context": [
@@ -110,6 +138,16 @@
           "command": "openindelphi.compileActiveProjectInDelphi",
           "group": "navigation@3",
           "when": "openindelphi.shouldShowContextMenu"
+        },
+        {
+          "command": "openindelphi.switchToDfmFile",
+          "group": "navigation@4",
+          "when": "openindelphi.shouldShowContextMenu && openindelphi.hasSiblingDfm"
+        },
+        {
+          "command": "openindelphi.switchToPasFile",
+          "group": "navigation@5",
+          "when": "openindelphi.shouldShowContextMenu && openindelphi.isDfmFile"
         }
       ]
     }
@@ -128,12 +166,13 @@
     "release-major": "pwsh -File ./scripts/release.ps1 -versionType major"
   },
   "devDependencies": {
-    "@types/vscode": "^1.102.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
-    "eslint": "^9.25.1",
-    "@vscode/vsce": "^3.6.0",
+    "@types/vscode": "^1.102.0",
     "@vscode/test-cli": "^0.0.11",
-    "@vscode/test-electron": "^2.5.2"
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.6.0",
+    "eslint": "^9.25.1",
+    "globals": "^17.4.0"
   }
 }
