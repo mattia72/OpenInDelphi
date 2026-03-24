@@ -26,6 +26,18 @@
   ],
   "main": "./extension.js",
   "contributes": {
+    "languages": [
+      {
+        "id": "pascal",
+        "extensions": [".pas", ".dpr", ".dpk"],
+        "aliases": ["Pascal", "Delphi"]
+      },
+      {
+        "id": "dfm",
+        "extensions": [".dfm"],
+        "aliases": ["Delphi Form"]
+      }
+    ],
     "commands": [
       {
         "command": "openindelphi.openCurrentFileInDelphi",
@@ -64,7 +76,7 @@
           "default": [
             "*"
           ],
-          "description": "Show context menu only for files with these extensions. Use '*' for all file extensions, empty string '' for files without extension. Example: ['pas', 'dpr', 'dpk', ''] for Delphi files and files without extension"
+          "description": "Show context menu only for files with these extensions. Use '*' for all file extensions, empty string '' for files without extension. Example: ['pas', 'dfm', 'dpr', 'dpk', ''] for Delphi files and files without extension"
         }
       }
     },

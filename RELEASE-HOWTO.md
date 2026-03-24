@@ -12,4 +12,4 @@
 | **3** | 📦 Publish to Marketplace | `publish` | Publish to VS Code Marketplace |
 | **2+3** | 🚀📦 Release & Publish | `release-and-publish` | GitHub release + Marketplace in one step |
 
-**Typical flow:** `package` → test manually → `release-and-publish`
+**Typical flow:** → uninstall open-in-delphi → `package` → ctrl+shift+p Install from VSX: open-in-delphi → test manually → `release-and-publish`

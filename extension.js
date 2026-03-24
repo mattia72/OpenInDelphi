@@ -77,6 +77,9 @@ function activate(context) {
 	});
 	
 	context.subscriptions.push(configChangeDisposable, editorChangeDisposable, documentOpenDisposable, selectionChangeDisposable, visibleEditorsChangeDisposable);
+
+	// Set initial context menu visibility
+	updateContextMenuVisibility();
 }
 
 /**
