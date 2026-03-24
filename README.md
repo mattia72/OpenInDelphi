@@ -2,6 +2,8 @@
 A Visual Studio Code extension that lets you open the file you're currently editing directly in the Delphi IDE.  
 Requires **[DRipExtensions](https://github.com/mattia72/DRipGrepper)** to be installed and configured in Delphi.
 
+_In memory of Richard._
+
 ## Features
 
 - Opens the current file in VS Code directly in the Delphi IDE
@@ -106,14 +108,12 @@ No known issues at this time. Please report any bugs or feature requests on the 
 
 ## Release Notes
 
-## [1.2.0] - 2025-08-29
-
+## [2.0.0] - 2026-03-26
 ### Added
-- Build Active Project in Delphi command with Shift+Alt+B keyboard shortcut
-- Compile Active Project in Delphi command with Shift+Alt+C keyboard shortcut
-- Context menu support for build and compile commands
+- Switch between pas and dfm files.
 
 ### Previous Releases
+- [1.2.0] - Build and Compile commands with keyboard shortcuts and context menu support
 - [1.1.1] - Package size reduced due to removal of unnecessary files
 - [1.1.0] - Added context menu support for opening files in Delphi IDE
   - Added configurable context menu behavior through extension settings

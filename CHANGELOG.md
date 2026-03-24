@@ -2,6 +2,12 @@
 
 All notable changes to the "openindelphi" extension will be documented in this file.
 
+## [2.0.0] - 2026-03-26
+_In memory of Richard._
+### Added
+- Switch between pas and dfm files.
+
+
 ## [1.2.0] - 2025-08-29
 ### Added
 - Build Active Project in Delphi command with Shift+Alt+B keyboard shortcut
