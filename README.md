@@ -6,10 +6,10 @@ _In memory of Richard._
 
 ## Features
 
-- Opens the current file in VS Code directly in the Delphi IDE
+- Seamless switch between VS Code and Delphi IDE 
 - Build the active project in Delphi IDE from VS Code
 - Compile the active project in Delphi IDE from VS Code
-- Seamless switch between VS Code and Delphi 
+- Switch between `.pas` and `.dfm` files with a single shortcut
 - Easy to use via Command Palette, context menu, or keyboard shortcuts
 
 ## Usage
@@ -21,16 +21,20 @@ The extension provides three main commands:
 1. **Open Current File in Delphi** - Opens the current file in VS Code directly in the Delphi IDE
 2. **Build Active Project in Delphi** - Builds the active project in Delphi IDE 
 3. **Compile Active Project in Delphi** - Compiles the active project in Delphi IDE
+4. **Toggle .pas ↔ .dfm File** - Toggles between the corresponding `.pas` and `.dfm` file
 
 ### Using the Commands
 
 Execute any of the available commands via:
-   - **Command Palette** (Ctrl+Shift+P) -> Search for the command name
-   - **Keyboard shortcuts**:
-     - Open Current File in Delphi: **Shift+Alt+D**
-     - Build Active Project in Delphi: **Shift+Alt+B** 
-     - Compile Active Project in Delphi: **Shift+Alt+C**
+   - **Command Palette** (Ctrl+Shift+P) -> Search for the command name ( prefix is always "Open in Delphi: " for easier search )
    - **Right-click context menu** in the editor or file explorer
+
+| **Default Keybinding** | **Description** |
+|-----------------|-----------------------|
+| **Shift+Alt+D** | Open Current File in Delphi |
+| **Shift+Alt+B** | Build Active Project in Delphi|
+| **Shift+Alt+C** | Compile Active Project in Delphi|
+| **Shift+Alt+T** | Toggle between `.pas` and `.dfm` File|
 
 ### Switch from VS Code to Delphi 
 

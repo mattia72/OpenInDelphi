@@ -23,12 +23,8 @@ function activate(context) {
 		DelphiCommander.compileActiveProjectInDelphi();
 	});
 
-	const switchToPasDisposable = vscode.commands.registerCommand('openindelphi.switchToPasFile', () => {
-		switchToSiblingFile('.pas');
-	});
-
-	const switchToDfmDisposable = vscode.commands.registerCommand('openindelphi.switchToDfmFile', () => {
-		switchToSiblingFile('.dfm');
+	const togglePasDfmDisposable = vscode.commands.registerCommand('openindelphi.togglePasDfmFile', () => {
+		togglePasDfmFile();
 	});
 	
 	// Create a command that checks if context menu should be visible
@@ -36,7 +32,7 @@ function activate(context) {
 		return shouldShowContextMenu();
 	});
 	
-	context.subscriptions.push(openFileCommandDisposable, buildProjectCommandDisposable, compileProjectCommandDisposable, switchToPasDisposable, switchToDfmDisposable, checkContextMenuDisposable);
+	context.subscriptions.push(openFileCommandDisposable, buildProjectCommandDisposable, compileProjectCommandDisposable, togglePasDfmDisposable, checkContextMenuDisposable);
 	
 	// Function to update the context menu visibility
 	const updateContextMenuVisibility = () => {
@@ -187,6 +183,28 @@ function getFileExtension(filePath) {
 	}
 	
 	return filePath.substring(lastDotIndex + 1);
+}
+
+/**
+ * Toggle between .pas and .dfm sibling files
+ */
+async function togglePasDfmFile() {
+	const activeEditor = vscode.window.activeTextEditor;
+	if (!activeEditor) {
+		vscode.window.showWarningMessage('No active editor.');
+		return;
+	}
+
+	const currentPath = activeEditor.document.uri.fsPath;
+	const ext = getFileExtension(currentPath).toLowerCase();
+
+	if (ext === 'dfm') {
+		await switchToSiblingFile('.pas');
+	} else if (ext === 'pas') {
+		await switchToSiblingFile('.dfm');
+	} else {
+		vscode.window.showWarningMessage(`Toggle .pas ↔ .dfm is not supported for .${ext} files.`);
+	}
 }
 
 /**
