@@ -9,6 +9,7 @@ param(
 
 # Stop script on first error
 $ErrorActionPreference = "Stop"
+Import-Module -Name PsEnv -Force
 Update-SessionEnvironment # update api tokens
 
 function Build-ReleaseNotes {

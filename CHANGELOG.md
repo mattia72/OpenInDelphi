@@ -3,7 +3,9 @@
 All notable changes to the "openindelphi" extension will be documented in this file.
 
 ## [2.0.0] - 2026-03-26
+
 _In memory of Richard._
+
 ### Added
 - Toggle between `.pas` and `.dfm` files with a single keybinding (`Shift+Alt+T`).
 
