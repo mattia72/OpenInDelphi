@@ -9,6 +9,7 @@ param(
 
 # Stop script on first error
 $ErrorActionPreference = "Stop"
+Update-SessionEnvironment # update api tokens
 
 function Build-ReleaseNotes {
     param(
@@ -106,7 +107,7 @@ try {
         # Create release with notes from file using PowerShell function
         Write-Host "Creating GitHub Release and uploading package via API..."
         . "$PSScriptRoot/gh-release.ps1"
-        $githubToken = $(Get-Content $PSScriptRoot/SECRET_TOKEN)[0]
+        $githubToken = $env:GITHUB_TOKEN
         if (-not $githubToken) {
             Write-Error "FATAL: GITHUB_TOKEN environment variable is not set. Please set it with a personal access token."
             exit 1
