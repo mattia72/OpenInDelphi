@@ -16,3 +16,8 @@
 | **3+4** | 🚀📦 Release & Publish | `release-and-publish` | GitHub release + Marketplace in one step |
 
 **Typical flow:** → uninstall open-in-delphi → `package` → ctrl+shift+p Install from VSX: open-in-delphi → test manually → `release-and-publish`
+
+### Prerequisites
+
+- **Marketplace token:** The `publish` and `release-and-publish` scripts require the `VSCE_PAT` environment variable to be set with a valid Personal Access Token from [dev.azure.com](https://dev.azure.com) (Scopes: Marketplace → Manage).
+- **GitHub token:** The `release` script reads the GitHub token from `$env:GITHUB_TOKEN`.

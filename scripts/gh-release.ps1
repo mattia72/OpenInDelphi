@@ -1,4 +1,10 @@
-. "$PSScriptRoot\..\..\..\delphi\RipGrepper\deploy\GitHubReleaseUtils.ps1" 
+Write-Host "Loading GitHub release utilities from '$PSScriptRoot\..\..\..\..\delphi\RipGrepper\deploy\GitHubReleaseUtils.ps1'..."
+if (Test-Path "$PSScriptRoot\..\..\..\..\delphi\RipGrepper\deploy\GitHubReleaseUtils.ps1" -ErrorAction SilentlyContinue) {
+    . "$PSScriptRoot\..\..\..\..\delphi\RipGrepper\deploy\GitHubReleaseUtils.ps1"
+}
+else {
+    . "$PSScriptRoot\..\..\..\delphi\RipGrepper\deploy\GitHubReleaseUtils.ps1"
+}
 
 function New-GitHubRelease {
     param(
