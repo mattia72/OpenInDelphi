@@ -29,7 +29,7 @@
     "languages": [
       {
         "id": "pascal",
-        "extensions": [".pas", ".dpr", ".dpk"],
+        "extensions": [".pas", ".inc", ".dpr", ".dpk"],
         "aliases": ["Pascal", "Delphi"]
       },
       {
@@ -52,12 +52,8 @@
         "title": "Open in Delphi: Compile Active Project in Delphi"
       },
       {
-        "command": "openindelphi.switchToPasFile",
-        "title": "Open in Delphi: Switch to .pas File"
-      },
-      {
-        "command": "openindelphi.switchToDfmFile",
-        "title": "Open in Delphi: Switch to .dfm File"
+        "command": "openindelphi.togglePasDfmFile",
+        "title": "Open in Delphi: Toggle .pas ↔ .dfm File"
       }
     ],
     "configuration": {
@@ -84,27 +80,22 @@
       {
         "command": "openindelphi.openCurrentFileInDelphi",
         "key": "shift+alt+d",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && resourceExtname =~ /\\.(pas|inc|dfm|dpr|dpk)$/i"
       },
       {
         "command": "openindelphi.buildActiveProjectInDelphi",
         "key": "shift+alt+b",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && resourceExtname =~ /\\.(pas|inc|dfm|dpr|dpk)$/i"
       },
       {
         "command": "openindelphi.compileActiveProjectInDelphi",
         "key": "shift+alt+c",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && resourceExtname =~ /\\.(pas|inc|dfm|dpr|dpk)$/i"
       },
       {
-        "command": "openindelphi.switchToPasFile",
-        "key": "shift+alt+p",
-        "when": "editorTextFocus"
-      },
-      {
-        "command": "openindelphi.switchToDfmFile",
-        "key": "shift+alt+f",
-        "when": "editorTextFocus"
+        "command": "openindelphi.togglePasDfmFile",
+        "key": "shift+alt+t",
+        "when": "editorTextFocus && resourceExtname =~ /\\.(pas|dfm)$/i"
       }
     ],
     "menus": {
@@ -125,14 +116,9 @@
           "when": "openindelphi.shouldShowContextMenu"
         },
         {
-          "command": "openindelphi.switchToDfmFile",
+          "command": "openindelphi.togglePasDfmFile",
           "group": "navigation@4",
-          "when": "openindelphi.shouldShowContextMenu && openindelphi.hasSiblingDfm"
-        },
-        {
-          "command": "openindelphi.switchToPasFile",
-          "group": "navigation@5",
-          "when": "openindelphi.shouldShowContextMenu && openindelphi.isDfmFile"
+          "when": "openindelphi.shouldShowContextMenu && (openindelphi.hasSiblingDfm || openindelphi.isDfmFile)"
         }
       ],
       "explorer/context": [
@@ -152,14 +138,9 @@
           "when": "openindelphi.shouldShowContextMenu"
         },
         {
-          "command": "openindelphi.switchToDfmFile",
+          "command": "openindelphi.togglePasDfmFile",
           "group": "navigation@4",
-          "when": "openindelphi.shouldShowContextMenu && openindelphi.hasSiblingDfm"
-        },
-        {
-          "command": "openindelphi.switchToPasFile",
-          "group": "navigation@5",
-          "when": "openindelphi.shouldShowContextMenu && openindelphi.isDfmFile"
+          "when": "openindelphi.shouldShowContextMenu && (openindelphi.hasSiblingDfm || openindelphi.isDfmFile)"
         }
       ]
     }

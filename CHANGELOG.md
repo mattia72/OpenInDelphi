@@ -5,7 +5,10 @@ All notable changes to the "openindelphi" extension will be documented in this f
 ## [2.0.0] - 2026-03-26
 _In memory of Richard._
 ### Added
-- Switch between pas and dfm files.
+- Toggle between `.pas` and `.dfm` files with a single keybinding (`Shift+Alt+T`).
+
+### Changed
+- Keyboard shortcuts are active only when the active file is a Delphi source file (`.pas`, `.inc`, `.dpr`, `.dpk` or `.dfm`).
 
 
 ## [1.2.0] - 2025-08-29
